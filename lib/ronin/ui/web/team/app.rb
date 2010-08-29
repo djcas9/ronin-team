@@ -37,6 +37,8 @@ module Ronin
           enable :sessions
           use Faye::RackAdapter, :mount => '/share', :timeout => 20
 
+          helpers Team::Helpers
+
           before  do
             if no_session?
               unless %w[/setup /login].include?(request.path)
@@ -44,8 +46,6 @@ module Ronin
               end
             end
           end
-
-          helpers Team::Helpers
 
           get '/' do
             redirect '/chat'
