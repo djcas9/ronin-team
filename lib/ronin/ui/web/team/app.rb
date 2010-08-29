@@ -21,6 +21,7 @@
 
 require 'ronin/ui/web/team/helpers'
 require 'ronin/ui/output/helpers'
+require 'ronin/database'
 require 'ronin/version'
 
 require 'sinatra'
@@ -48,6 +49,8 @@ module Ronin
             trap('SIGINT') do
               env['faye.client'].publish('/sysmsg', {:msg => "Server Restarting... Please Wait."})
             end
+
+            Database.setup
           end
 
           before  do
