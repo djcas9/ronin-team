@@ -239,7 +239,7 @@ div.submit input#chat-input{
 	z-index: 9999;
 	right: 0;
 	left: 0;
-	background: #4c6f90 url(../images/header-bg.png) repeat-x;
+	background: #111 url(../images/header-bg.png) repeat-x;
 }
 
 #header .logo{
