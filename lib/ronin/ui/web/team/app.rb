@@ -48,11 +48,12 @@ module Ronin
             trap('SIGINT') do
               env['faye.client'].publish('/sysmsg', {:msg => "Server Restarting... Please Wait."})
             end
-            
           end
 
           before  do
-            if no_session?
+            if !(seen_intro?)
+              redirect '/intro' unless request.path == '/intro'
+            elsif no_session?
               unless %w[/ /intro /setup /login].include?(request.path)
                 redirect '/setup'
               end
@@ -60,15 +61,7 @@ module Ronin
           end
 
           get '/' do
-            if seen_intro?
-              if has_session?
-                redirect '/chat'
-              else
-                redirect '/setup'
-              end
-            else
-              redirect '/intro'
-            end
+            redirect '/chat'
           end
 
           get '/intro' do
