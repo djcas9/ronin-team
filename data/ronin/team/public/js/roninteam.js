@@ -1,13 +1,20 @@
 var RoninTeam = {
-	
-	
+
 	helpers: function(){
 		//...
 	},
 
   ChatRoom: {
     commands: {
-      'clear': function() { $('ul.chat > li').remove(); }
+      'clear': function() { $('ul.chat > li').remove(); },
+
+      'nick': function() {
+        // stub for nick command
+      },
+
+      'help': function() {
+        // stub for help command
+      }
     },
 
     inputHandler: function() {
