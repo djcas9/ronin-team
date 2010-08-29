@@ -38,7 +38,7 @@ var RoninTeam = {
 		$('ul.chat li').livequery(function() {
 			$(this).autolink();
 			$(this).mailto();
-			$('span.user-message', this).highlight(roninteam_user, '<span style="background-color:#FFFF7F;">$1</span>');
+			//$('span.user-message', this).highlight(roninteam_user, '<span style="background-color:#FFFF7F;">$1</span>');
 		});
 		
 	},
