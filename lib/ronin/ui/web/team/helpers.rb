@@ -19,11 +19,17 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'rack'
+
 module Ronin
   module UI
     module Web
       module Team
         module Helpers
+          include Rack::Utils
+
+          alias h escape_html
+
           def has_session?
             return true if session[:username]
             redirect '/setup'
