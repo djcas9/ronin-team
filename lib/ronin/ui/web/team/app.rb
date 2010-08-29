@@ -35,7 +35,7 @@ module Ronin
           set :root, File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','..','data','ronin','team'))
 
           enable :sessions
-          use Faye::RackAdapter, :mount => '/share', :timeout => 45
+          use Faye::RackAdapter, :mount => '/share', :timeout => 20
 
           before  do
           end
