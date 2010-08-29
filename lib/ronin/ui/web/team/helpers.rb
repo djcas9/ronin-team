@@ -19,4 +19,22 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/ui/web/team/app'
+module Ronin
+  module UI
+    module Web
+      module Team
+        module Helpers
+          def has_session?
+            return true if session[:username]
+            redirect '/setup'
+          end
+
+          def no_session!
+            return true unless session[:username]
+            false
+          end
+        end
+      end
+    end
+  end
+end

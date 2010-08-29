@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
     "data/ronin/team/public/images/header-bg.png",
     "data/ronin/team/public/images/icons/link.png",
     "data/ronin/team/public/images/icons/mail.png",
+    "data/ronin/team/public/images/logo-water.png",
     "data/ronin/team/public/images/logo.png",
     "data/ronin/team/public/images/tipsy.gif",
     "data/ronin/team/public/images/user-list.png",
@@ -49,7 +50,10 @@ Gem::Specification.new do |s|
     "data/ronin/team/views/layout.erb",
     "data/ronin/team/views/setup.erb",
     "lib/ronin/team/version.rb",
-    "lib/ronin/ui/web/team.rb"
+    "lib/ronin/ui/web/team.rb",
+    "lib/ronin/ui/web/team/app.rb",
+    "lib/ronin/ui/web/team/helpers.rb",
+    "ronin-team.gemspec"
   ]
   s.has_rdoc = %q{yard}
   s.homepage = %q{http://github.com/mephux/ronin-team}
