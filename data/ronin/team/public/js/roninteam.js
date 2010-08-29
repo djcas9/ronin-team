@@ -4,7 +4,39 @@ var RoninTeam = {
 		//...
 	},
 
+  currentTime: function() {   return new Date().getTime(); },
+
   ChatRoom: {
+    createMessage: function() {
+      return $('<li style="opacity:0.1;" />').attr('id', RoninTeam.currentTime());
+    },
+
+    addMessage: function(chat) {
+      var mesgNode = RoninTeam.ChatRoom.createMessage();
+      var classes = ['message'];
+
+      if (roninteam_user == chat.user)
+      {
+        classes.push('me');
+      }
+      else if (chat.message.match(roninteam_user))
+      {
+        classes.push('highlight');
+      }
+
+      mesgNode.attr('class', classes.join(' '));
+
+      $('<span class="user-name" />').text(chat.user).appendTo(mesgNode);
+      $('<span class="user-message" />').text(chat.message).appendTo(mesgNode);
+      $('<span class="datetime" />').text(chat.timestamp).appendTo(mesgNode);
+
+      $('ul.chat').append(mesgNode);
+      $('ul.chat').scrollTo('100%', 1);
+
+      mesgNode.animate({'opacity': 1}, 500);
+      return mesgNode;
+    },
+
     commands: {
       'clear': function() { $('ul.chat > li').remove(); },
 
@@ -115,20 +147,7 @@ Logger = {
 
 RoninTeamServer.addExtension(Logger);
 
-var chatsub = RoninTeamServer.subscribe('/chat', function(chat) {
-  var TimeStampId = new Date().getTime();
-  if (roninteam_user == chat.user) {
-     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="me message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
-  } else {
-    if (chat.message.match(roninteam_user)) {
-      $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="highlight message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
-    } else {
-     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
-    };
-  };
-  $('li#'+TimeStampId).animate({'opacity': 1}, 500);
-  $('ul.chat').scrollTo('100%', 1);
-});
+var chatsub = RoninTeamServer.subscribe('/chat', RoninTeam.ChatRoom.addMessage);
 
 var users = RoninTeamServer.subscribe('/users', function(users) {
   var TitleData = 'IP Address: '+users.addr+''
