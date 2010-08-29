@@ -20,7 +20,7 @@ jQuery.fn.mailto = function () {
 }
 
 function prettyDate(datetime) {
-	return datetime;
+	return Date.now();
 }
 
 var RoninTeam = {

@@ -8,13 +8,10 @@ html,body{
 /* @group User List */
 
 div.user-list-holder{
-	float: left;
-	min-width: 200px;
-	display: block;
+	width: 15%;
 	position: relative;
+	display: block;
 	overflow: hidden;
-	margin-right: 20px;
-	width: 14%;
 }
 
 div.user-list-holder h1{
@@ -35,9 +32,7 @@ div.user-list-holder h1 img{
 div.user-list-holder ul.user-list{
 	padding-left: 15px;
 	list-style: none;
-	display: block;
-	position: relative;
-	overflow: hidden;
+	width: 85%;
 }
 div.user-list-holder ul.user-list li{
 	border-bottom: 1px dotted #d4d4d4;
@@ -68,7 +63,6 @@ div.user-list-holder ul.user-list li.me{
 div.chat-holder{
 	width: 85%;
 	height: 100%;
-	min-width: 300px;
 	display: block;
 	position: absolute;
 	overflow: hidden;
@@ -248,7 +242,7 @@ div.submit input#chat-input{
 	height: 80px;
 	top: 0;
 	position: absolute;
-	z-index: 99999;
+	z-index: 999999;
 	width: 500px;
 	left: 0;
 	background: transparent url(../images/logo.png) no-repeat left top;
@@ -265,6 +259,17 @@ div.submit input#chat-input{
 	right: 0;
 }
 
+
+.watermark{
+	background: url(../images/logo-water.png) no-repeat;
+	position: absolute;
+	width: 200px;
+	height: 100px;
+	display: block;
+	overflow: hidden;
+	right: 30px;
+	bottom: 60px;
+}
 
 /* @end */
 
