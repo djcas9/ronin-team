@@ -4,42 +4,61 @@ var RoninTeam = {
 	helpers: function(){
 		//...
 	},
-	
-	chat: function(){
-		
+
+  ChatRoom: {
+    commands: {
+      'clear': function() { $('ul.chat > li').remove(); }
+    },
+
+    inputHandler: function() {
+ 			var chatInput = $('input#chat-input').val();
+
+      if (chatInput.length > 0)
+      {
+        if (chatInput[0] == '/')
+        {
+          // chat command
+          var commandName = chatInput.substr(1,chatInput.length);
+
+          if (RoninTeam.ChatRoom.commands[commandName] != null)
+          {
+            RoninTeam.ChatRoom.commands[commandName]();
+          }
+        }
+        else
+        {
+  			  RoninTeamServer.publish('/chat', {user: roninteam_user, message: chatInput, timestamp: Date.now()});
+        }
+
+        $('input#chat-input').val('');
+ 			}
+
+  		return false;
+    }
+  },
+
+  chat: function() {
 		$('ul.chat li').livequery(function() {
-			$(this).autolink();
-			$(this).mailto();
+ 		  $(this).autolink();
+ 		  $(this).mailto();
 			//$('span.user-message', this).highlight(roninteam_user, '<span style="background-color:#FFFF7F;">$1</span>');
-		});
+ 	  });
 		
 		$('input#chat-input').focus();
 		
-		$('form.chat-form').livequery(function() {
-			$(this).submit(function() {
-				var ChatInput = $('input#chat-input').val();
-				if (ChatInput.length !=0) {
-					RoninTeamServer.publish('/chat', {user: roninteam_user, message: ChatInput, timestamp: Date.now()});
-					$('input#chat-input').val('');
-				};
-				return false;
-			});
-			
-		});
-		
-	},
+    $('form.chat-form').livequery(function() {
+			$(this).submit(RoninTeam.ChatRoom.inputHandler);
+    });
+  },
 	
 	tooltip: function(){
-		
 		$('.tooltip').tipsy({
 			live: true,
 			gravity: 'sw',
 			html: false
 		});
-		
 	}
-	
-}
+};
 
 jQuery(document).ready(function($) {
 	RoninTeam.helpers();
