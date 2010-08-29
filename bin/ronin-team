@@ -20,6 +20,6 @@ end
 lib_dir = File.join(root_dir,'lib')
 $LOAD_PATH << lib_dir unless $LOAD_PATH.include?(lib_dir)
 
-require 'ronin/ui/web/team'
+require 'ronin/ui/command_line/commands/team'
 
-Ronin::UI::Web::Team::App.run!
+Ronin::UI::CommandLine::Commands::Team.start

@@ -16,7 +16,11 @@ Researchers collaborate.
 
 Start the Ronin Team web application:
 
-    $ ronin-team
+    $ ronin team
+
+Start the Ronin Team web application on a custom Host and Port:
+
+    $ ronin team -I 0.0.0.0 -p 3030
 
 ## Requirements
 
