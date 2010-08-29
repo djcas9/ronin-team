@@ -6,6 +6,14 @@ var RoninTeam = {
 
   currentTime: function() {   return new Date().getTime(); },
 
+  flashMessages: function() {
+    $('<div id="flash-messages"></div>').appendTo('body');
+  },
+
+  flashMessage: function(message) {
+    $('<p class="flash-message" />').text(message).appendTo("#flash-messages");
+  },
+
   ChatRoom: {
     newMessage: function() {
       return $('<li style="opacity:0.1;" />').attr('id', RoninTeam.currentTime());
@@ -122,10 +130,10 @@ var RoninTeam = {
 };
 
 jQuery(document).ready(function($) {
-	RoninTeam.helpers();
-	RoninTeam.chat();
-	RoninTeam.inputHandler();
-	RoninTeam.tooltip();
+  RoninTeam.helpers();
+  RoninTeam.flashMessages();
+  RoninTeam.chat();
+  RoninTeam.tooltip();
 });
 
 jQuery.fn.highlight = function (text, o) {

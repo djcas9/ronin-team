@@ -59,6 +59,19 @@ module Ronin
             !(no_session?)
           end
 
+          #
+          # The flash messages for the session.
+          #
+          # @return [Hash]
+          #   The flash messages and their categories.
+          #
+          def flash
+            if session[:flash] && session[:flash].class != Hash
+              session[:flash] = {}
+            else
+              session[:flash] ||= {}
+            end
+          end
         end
       end
     end

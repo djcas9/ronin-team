@@ -39,6 +39,13 @@
   <script type="text/javascript" src="/js/Datejs.js"></script>
   <script type="text/javascript" src="/js/roninteam.js"></script>
     
+  <script type="text/javascript">
+  <% flash.each do |category,message| %>
+    RoninTeam.flashMessage(<%=json category %>, <%=json message %>);
+  <% end %>
+  </script>
+  <% flash.clear %>
+
   </body>
   
 </html>
