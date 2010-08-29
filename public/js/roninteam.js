@@ -1,3 +1,24 @@
+jQuery.fn.highlight = function (text, o) {
+	return this.each( function(){
+		var replace = o || '<span class="highlight">$1</span>';
+		$(this).html( $(this).html().replace( new RegExp('('+text+'(?![\\w\\s?&.\\/;#~%"=-]*>))', "ig"), replace) );
+	});
+}
+
+jQuery.fn.autolink = function () {
+	return this.each( function(){
+		var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
+		$(this).html( $(this).html().replace(re, '<a href="$1">$1</a> ') );
+	});
+}
+
+jQuery.fn.mailto = function () {
+	return this.each( function() {
+		var re = /(([a-z0-9*._+]){1,}\@(([a-z0-9]+[-]?){1,}[a-z0-9]+\.){1,}([a-z]{2,4}|museum)(?![\w\s?&.\/;#~%"=-]*>))/g
+		$(this).html( $(this).html().replace( re, '<a href="mailto:$1">$1</a>' ) );
+	});
+}
+
 var RoninTeam = {
 
 	chat: function(){
@@ -12,6 +33,12 @@ var RoninTeam = {
 				return false;
 			});
 			
+		});
+		
+		$('ul.chat li').livequery(function() {
+			$(this).autolink();
+			$(this).mailto();
+			$('span.user-message', this).highlight(roninteam_user, '<span style="background-color:#FFFF7F;">$1</span>');
 		});
 		
 	},
@@ -31,7 +58,7 @@ jQuery(document).ready(function($) {
 	RoninTeam.tooltip();
 });
 
-var RoninTeamServer = new Faye.Client('http://10.0.1.6:8080/share', { timeout: 120 });
+var RoninTeamServer = new Faye.Client('http://'+roninteam_server+'/share', { timeout: 120 });
 
 Logger = {
   incoming: function(message, callback) {
@@ -50,12 +77,12 @@ var chatsub = RoninTeamServer.subscribe('/chat', function(chat) {
   var TimeStamp = new Date().getTime();
   console.log(TimeStamp);
   if (roninteam_user == chat.user) {
-     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="me message"><span class="user-name">'+chat.user+':</span> '+chat.message+' <span class="datetime">'+chat.timestamp+'</span></li>');
+     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="me message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+chat.timestamp+'</span></li>');
   } else {
     if (chat.message.match(roninteam_user)) {
-      $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="highlight message"><span class="user-name">'+chat.user+':</span> '+chat.message+' <span class="datetime">'+chat.timestamp+'</span></li>');
+      $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="highlight message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+chat.timestamp+'</span></li>');
     } else {
-     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="message"><span class="user-name">'+chat.user+':</span> '+chat.message+' <span class="datetime">'+chat.timestamp+'</span></li>');
+     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+chat.timestamp+'</span></li>');
     };
   };
   $('li#'+TimeStamp).animate({'opacity': 1}, 500);

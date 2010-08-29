@@ -11,6 +11,7 @@
       var roninteam_agent = '<%= session[:agent] || nil %>'
       var roninteam_lang = '<%= session[:lang] || nil %>'
       var roninteam_addr = '<%= session[:ipaddr] || nil %>'
+      var roninteam_server = "<%= env['HTTP_HOST'] %>"
     </script>
     
   </head>

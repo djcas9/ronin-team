@@ -55,3 +55,40 @@ get '/ls' do
   env['faye.client'].publish('/ls', {:data => `nmap 127.0.0.1` }) if has_session?
   ""
 end
+
+# @env=
+#   {"rack.session"=>{:username=>"Dustin"},
+#    "HTTP_CACHE_CONTROL"=>"max-age=0",
+#    "HTTP_ACCEPT"=>
+#     "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5",
+#    "HTTP_HOST"=>"10.0.1.6:8080",
+#    "SERVER_NAME"=>"10.0.1.6",
+#    "rack.request.cookie_hash"=>
+#     {"rack.session"=>"BAh7BjoNdXNlcm5hbWUiC0R1c3Rpbg==\n"},
+#    "rack.url_scheme"=>"http",
+#    "HTTP_USER_AGENT"=>
+#     "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8",
+#    "REQUEST_PATH"=>"/request",
+#    "SERVER_PROTOCOL"=>"HTTP/1.1",
+#    "HTTP_ACCEPT_LANGUAGE"=>"en-us",
+#    "rack.errors"=>#<IO:0x100163b80>,
+#    "async.callback"=>#<Method: Thin::Connection#post_process>,
+#    "REMOTE_ADDR"=>"10.0.1.6",
+#    "PATH_INFO"=>"/request",
+#    "rack.run_once"=>false,
+#    "rack.version"=>[1, 0],
+#    "SERVER_SOFTWARE"=>"thin 1.2.7 codename No Hup",
+#    "rack.request.cookie_string"=>
+#     "rack.session=BAh7BjoNdXNlcm5hbWUiC0R1c3Rpbg%3D%3D%0A",
+#    "SCRIPT_NAME"=>"",
+#    "HTTP_COOKIE"=>"rack.session=BAh7BjoNdXNlcm5hbWUiC0R1c3Rpbg%3D%3D%0A",
+#    "HTTP_VERSION"=>"HTTP/1.1",
+#    "rack.multithread"=>false,
+#    "REQUEST_URI"=>"/request",
+#    "rack.multiprocess"=>false,
+#    "rack.request.query_hash"=>{},
+#    "faye.client"=>
+#     #<Faye::Client:0x1034d8c40
+#      @advice={"reconnect"=>"retry", "timeout"=>60000.0, "interval"=>0.0},
+#      @channels=#<Faye::Channel::Tree:0x1034d8a60 @children={}, @value=nil>,
+#      @endpoint=
