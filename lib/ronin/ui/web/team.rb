@@ -29,8 +29,7 @@ module Ronin
       class Team < Sinatra::Base
 
         set :run, true
-        set :views, 'views'
-        set :public, 'public'
+        set :root, File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','data','ronin','team'))
 
         enable :sessions
         use Faye::RackAdapter, :mount => '/share', :timeout => 45
