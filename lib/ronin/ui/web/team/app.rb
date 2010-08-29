@@ -93,7 +93,8 @@ module Ronin
               session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
 
               @@users << username
-              env['faye.client'].publish('/announce', {:newpush => true})
+              env['faye.client'].publish('/new_join', {:user => username})
+              ""
             end
 
             redirect '/chat'

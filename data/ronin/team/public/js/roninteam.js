@@ -91,31 +91,16 @@ Logger = {
 
 var chatsub = RoninTeamServer.subscribe('/chat', function(chat) {
   var TimeStampId = new Date().getTime();
-  var mesgNode = $('<li style="opacity:0.1;" />').attr('id', TimeStampId);
-
-  if (roninteam_user == chat.user)
-  {
-    mesgNode.attr('class', 'me message');
-  }
-  else
-  {
-    if (chat.message.match(roninteam_user))
-    {
-      mesgNode.attr('class', 'highlight message');
-    }
-    else
-    {
-      mesgNode.attr('class', 'message');
-    }
-  }
-
-  $('<span class="user-name" />').text(chat.user).appendTo(mesgNode);
-  $('<span class="user-message" />').text(chat.message).appendTo(mesgNode);
-  $('<span class="datetime" />').text(chat.timestamp).appendTo(mesgNode);
-
-  $('ul.chat').append(mesgNode);
-
-  $('li#' + TimeStampId).animate({'opacity': 1}, 500);
+  if (roninteam_user == chat.user) {
+     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="me message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
+  } else {
+    if (chat.message.match(roninteam_user)) {
+      $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="highlight message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
+    } else {
+     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
+    };
+  };
+  $('li#'+TimeStampId).animate({'opacity': 1}, 500);
   $('ul.chat').scrollTo('100%', 1);
 });
 
@@ -129,7 +114,11 @@ var users = RoninTeamServer.subscribe('/users', function(users) {
        $('ul.user-list').append('<li class="'+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
     };
   };
-  if (users.newpush == true) { $('ul.chat').append('<li>'+users.user+' entered the chat.</li>'); };
+  if (users.new_join) { $('ul.chat').append('<li>'+users.user+' entered the chat.</li>'); };
+});
+
+var new_join = RoninTeamServer.subscribe('/new_join', function(join) {
+  $('ul.chat').append('<li>'+join.user+' entered the chat.</li>');
 });
 
 var announce = RoninTeamServer.subscribe('/announce', function(announce) {
