@@ -8,7 +8,8 @@ var RoninTeam = {
     commands: {
       'clear': function() { $('ul.chat > li').remove(); },
 
-      'nick': function() {
+      'nick': function(nick) {
+				console.log();
         // stub for nick command
       },
 
@@ -70,6 +71,7 @@ var RoninTeam = {
 jQuery(document).ready(function($) {
 	RoninTeam.helpers();
 	RoninTeam.chat();
+	RoninTeam.inputHandler();
 	RoninTeam.tooltip();
 });
 
