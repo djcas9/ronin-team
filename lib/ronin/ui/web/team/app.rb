@@ -80,7 +80,7 @@ module Ronin
               end
 
               if @@users.include?(username)
-                print_info "User #{username.dump} is already logged in."
+                print_error "User #{username.dump} is already logged in."
 
                 redirect '/setup'
               end
