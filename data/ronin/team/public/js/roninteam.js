@@ -91,16 +91,31 @@ Logger = {
 
 var chatsub = RoninTeamServer.subscribe('/chat', function(chat) {
   var TimeStampId = new Date().getTime();
-  if (roninteam_user == chat.user) {
-     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="me message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
-  } else {
-    if (chat.message.match(roninteam_user)) {
-      $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="highlight message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
-    } else {
-     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
-    };
-  };
-  $('li#'+TimeStampId).animate({'opacity': 1}, 500);
+  var mesgNode = $('<li style="opacity:0.1;" />').attr('id', TimeStampId);
+
+  if (roninteam_user == chat.user)
+  {
+    mesgNode.attr('class', 'me message');
+  }
+  else
+  {
+    if (chat.message.match(roninteam_user))
+    {
+      mesgNode.attr('class', 'highlight message');
+    }
+    else
+    {
+      mesgNode.attr('class', 'message');
+    }
+  }
+
+  $('<span class="user-name" />').text(chat.user).appendTo(mesgNode);
+  $('<span class="user-message" />').text(chat.message).appendTo(mesgNode);
+  $('<span class="datetime" />').text(chat.timestamp).appendTo(mesgNode);
+
+  $('ul.chat').append(mesgNode);
+
+  $('li#' + TimeStampId).animate({'opacity': 1}, 500);
   $('ul.chat').scrollTo('100%', 1);
 });
 
