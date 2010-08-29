@@ -45,7 +45,7 @@ module Ronin
           configure do
             @@users = Set[]
             
-            trap(:INT) do
+            trap('SIGINT') do
               env['faye.client'].publish('/sysmsg', {:msg => "Server Restarting... Please Wait."})
             end
             
