@@ -27,6 +27,8 @@ var RoninTeam = {
 	
 	chat: function(){
 		
+		$('input#chat-input').focus();
+		
 		$('form.chat-form').livequery(function() {
 			$(this).submit(function() {
 				var ChatInput = $('input#chat-input').val();
