@@ -25,7 +25,7 @@ require 'ronin/version'
 
 require 'sinatra'
 require 'faye'
-require 'pp'
+require 'set'
 
 module Ronin
   module UI
@@ -41,6 +41,10 @@ module Ronin
 
           helpers Team::Helpers
           helpers UI::Output::Helpers
+
+          configure do
+            @@users = Set[]
+          end
 
           before  do
             if no_session?
@@ -69,13 +73,26 @@ module Ronin
 
           get '/login' do
             if no_session?
-              print_info "User #{params[:username].dump} logged in."
+              username = params[:username]
 
-              session[:username] = params[:username]
+              if username.empty?
+                redirect '/setup'
+              end
+
+              if @@users.include?(username)
+                print_info "User #{username.dump} is already logged in."
+
+                redirect '/setup'
+              end
+
+              print_info "User #{username.dump} logged in."
+
+              session[:username] = username
               session[:ipaddr] = env['REMOTE_ADDR']
               session[:agent] = env['HTTP_USER_AGENT']
               session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
 
+              @@users << username
               env['faye.client'].publish('/announce', {:newpush => true})
             end
 
