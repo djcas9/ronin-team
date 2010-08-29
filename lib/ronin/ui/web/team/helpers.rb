@@ -20,6 +20,7 @@
 #
 
 require 'rack'
+require 'json'
 
 module Ronin
   module UI
@@ -29,6 +30,22 @@ module Ronin
           include Rack::Utils
 
           alias h escape_html
+
+          #
+          # Renders a JSON blob.
+          #
+          # @param [Object] obj
+          #   The object to convert to a JSON blob.
+          #
+          # @return [String]
+          #   The encoded JSON blob.
+          #
+          def json(obj)
+            content_type :json
+
+            obj = obj.to_s unless obj.respond_to?(:to_json)
+            return obj.to_json
+          end
 
           def has_session?
             return true if session[:username]
