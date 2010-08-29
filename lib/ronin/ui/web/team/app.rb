@@ -20,6 +20,7 @@
 #
 
 require 'ronin/ui/web/team/helpers'
+require 'ronin/version'
 
 require 'sinatra'
 require 'faye'
@@ -41,14 +42,27 @@ module Ronin
 
           before  do
             if no_session?
-              unless %w[/setup /login].include?(request.path)
+              unless %w[/ /intro /setup /login].include?(request.path)
                 redirect '/setup'
               end
             end
           end
 
           get '/' do
-            redirect '/chat'
+            if seen_intro?
+              if has_session?
+                redirect '/chat'
+              else
+                redirect '/setup'
+              end
+            else
+              redirect '/intro'
+            end
+          end
+
+          get '/intro' do
+            session[:seen_intro] = true
+            erb :intro, :layout => false
           end
 
           get '/login' do

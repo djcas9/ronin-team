@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #intro {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/raphael.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+         var paper = Raphael('intro');
+          var center = {x: (paper.width / 2), y: (paper.height / 2)};
+
+          var version = paper.text(
+            (paper.width - 50),
+            (paper.height - 100),
+            "<%=h Ronin::VERSION %>"
+          );
+
+          version.attr({
+            'font-size': 35,
+            'font-family': 'Arial',
+            'font-weight': 'bold'
+          });
+
+          version.rotate(-90);
+
+          function diamond(x,y,width,height,attrs) {
+            var new_diamond = paper.image(
+              '/images/diamond.png',
+              x,y,
+              width,height
+            );
+
+            if (attrs != null)
+            {
+              new_diamond.attr(attrs);
+            }
+
+            return new_diamond;
+          }
+
+          function leaveIntro() { window.location = '/'; }
+
+          function fadeInLogo() {
+            var dim = {width: 271, height: 110};
+            var logo = paper.image(
+              '/images/logo.png',
+              (center.x - dim.width), (center.y - (dim.height / 2)),
+              dim.width, dim.height
+            );
+
+            logo.attr({opacity: 0});
+
+            logo.animate({opacity: 100}, 3000, '<', leaveIntro);
+          }
+
+          function slideInDiamonds() {
+            var dim = {width: (200 * 0.75), height: 200};
+            var pos = [
+              {x: center.x, y: center.y},
+              {x: (center.x + (dim.width / 2)), y: (center.y - (dim.height / 2))},
+              {x: center.x, y: (center.y - (dim.height))}
+            ];
+
+            var diamonds = [];
+            var i;
+
+            for (i=0; i<3; i++)
+            {
+              diamonds[i] = diamond(
+                pos[i].x,
+                pos[i].y - (center.y + dim.height),
+                dim.width,
+                dim.height
+              );
+            }
+
+            var speed = 300;
+
+            diamonds[0].animate({y: pos[0].y}, speed, '<',function() {
+              diamonds[1].animate({y: pos[1].y}, speed, '<',function() {
+                diamonds[2].animate({y: pos[2].y}, speed, '<',fadeInLogo);
+              });
+            });
+          }
+
+          slideInDiamonds();
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="intro">
+    </div>
+  </body>
+</html>

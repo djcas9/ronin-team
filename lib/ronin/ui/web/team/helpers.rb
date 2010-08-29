@@ -47,6 +47,10 @@ module Ronin
             return obj.to_json
           end
 
+          def seen_intro?
+            session[:seen_intro] == true
+          end
+
           def no_session?
             session[:username].nil?
           end
