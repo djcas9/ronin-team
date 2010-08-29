@@ -71,6 +71,31 @@ module Ronin
             erb :console
           end
 
+          get %r{/docs/([A-Za-z0-9:]+)(/(class|instance)_method/(.+))?} do
+            @class_name = params[:captures][0]
+            @url_path = @class_name.split('::').join('/')
+
+            if params[:captures][1]
+              scope = params[:captures][2]
+              method = params[:captures][3]
+
+              @url_fragment = "##{method}-#{scope}_method"
+            end
+
+            file_name = File.join('lib',@class_name.to_const_path) + '.rb'
+
+            name, gem = Installation.gems.find do |name,gem|
+              gem.files.include?(file_name)
+            end
+
+            if name
+              redirect "http://ronin.rubyforge.org/docs/#{name}/#{@url_path}.html#{@url_fragment}"
+            else
+              erb :docs_not_found
+            end
+          end
+
+
           get '/ls' do
             env['faye.client'].publish('/ls', {:data => `nmap 127.0.0.1` }) if has_session?
             ""
