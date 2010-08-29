@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>RoninTeam</title>
+    
+    <link rel="stylesheet" type="text/css" href="/css/roninteam.css" media="all">
+    
+    <script charset="utf-8" type="text/javascript">
+      var roninteam_user = '<%= session[:username] || nil %>'
+      var roninteam_agent = '<%= session[:agent] || nil %>'
+      var roninteam_lang = '<%= session[:lang] || nil %>'
+      var roninteam_addr = '<%= session[:ipaddr] || nil %>'
+    </script>
+    
+  </head>
+  
+  <body>
+  
+  <div id='header'>
+    <div class='logo'></div>
+    <div class='clouds'></div>
+  </div>
+  
+  <div id="wrapper">
+    
+    <%= yield %>
+    
+  </div>
+  
+  <script type="text/javascript" src="/js/faye.js"></script>
+  <script type="text/javascript" src="/js/jquery.js"></script>
+  <script type="text/javascript" src="/js/jquery.livequery.js"></script>
+  <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
+  <script type="text/javascript" src="/js/scrollto.js"></script>
+  <script type="text/javascript" src="/js/roninteam.js"></script>
+    
+  </body>
+  
+</html>
