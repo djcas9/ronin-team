@@ -168,6 +168,10 @@ div.chat-holder ul.chat li.me{
 	background-color: #fff;
 }
 
+div.chat-holder ul.chat li.sysmsg{
+	background-color: #fefeee;
+}
+
 div.chat-holder ul.chat li.highlight{
 	background-color: #fef9d9;
 }

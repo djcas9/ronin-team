@@ -87,7 +87,7 @@ Logger = {
   }
 };
 
-//RoninTeamServer.addExtension(Logger);
+RoninTeamServer.addExtension(Logger);
 
 var chatsub = RoninTeamServer.subscribe('/chat', function(chat) {
   var TimeStampId = new Date().getTime();
@@ -117,12 +117,12 @@ var users = RoninTeamServer.subscribe('/users', function(users) {
   if (users.new_join) { $('ul.chat').append('<li>'+users.user+' entered the chat.</li>'); };
 });
 
-var new_join = RoninTeamServer.subscribe('/new_join', function(join) {
-  $('ul.chat').append('<li>'+join.user+' entered the chat.</li>');
+var sysmsg = RoninTeamServer.subscribe('/sysmsg', function(ronin_team_system) {
+  $('ul.chat').append('<li class="sysmsg">'+ronin_team_system.msg+'</li>');
 });
 
 var announce = RoninTeamServer.subscribe('/announce', function(announce) {
-  RoninTeamServer.publish('/users', {user: roninteam_user, newpush: announce.newpush});
+  RoninTeamServer.publish('/users', {user: roninteam_user, agent: roninteam_agent, lang: roninteam_lang, addr: roninteam_addr, newpush: announce.newpush});
 });
 
 var commandsub = RoninTeamServer.subscribe('/ls', function(comm) {

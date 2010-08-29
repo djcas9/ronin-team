@@ -44,6 +44,11 @@ module Ronin
 
           configure do
             @@users = Set[]
+            
+            trap(:INT) do
+              env['faye.client'].publish('/sysmsg', {:msg => "Server Restarting... Please Wait."})
+            end
+            
           end
 
           before  do
@@ -72,6 +77,7 @@ module Ronin
           end
 
           get '/login' do
+            
             if no_session?
               username = params[:username]
 
@@ -80,7 +86,7 @@ module Ronin
               end
 
               if @@users.include?(username)
-                print_error "User #{username.dump} is already logged in."
+                print_info "User #{username.dump} is already logged in."
 
                 redirect '/setup'
               end
@@ -92,11 +98,9 @@ module Ronin
               session[:agent] = env['HTTP_USER_AGENT']
               session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
 
+              env['faye.client'].publish('/sysmsg', {:msg =>  "#{username} joined the chat."})
               @@users << username
-              env['faye.client'].publish('/new_join', {:user => username})
-              ""
             end
-
             redirect '/chat'
           end
 
