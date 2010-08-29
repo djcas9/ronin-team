@@ -1,0 +1,71 @@
+#console {
+	padding: 10px;
+	background-color: black;
+}
+
+#console-output {
+	height: 25em;
+	overflow: auto;
+}
+
+#console-output div.prompt {
+	float: left;
+}
+
+#console-output div.code {
+	margin-left: 2em;
+	white-space: pre;
+}
+
+#console-output div.code > a {
+	color: white;
+	text-decoration: none;
+}
+
+#console-output div.code > a:hover {
+	text-decoration: underline;
+}
+
+#console-output div.code > span.line-number {
+	float: right;
+}
+
+#console-output div.code > div.backtrace {
+	display: none;
+}
+
+#console-output div.code > div.backtrace > p {
+	margin: 0.5em;
+}
+
+#console-output div.expression {
+	padding: 0.5em 0;
+	color: #dadada;
+	background-color: black;
+	font-family: monospace;
+}
+
+#console-output div.result {
+	padding: 0.5em 0;
+	color: white;
+	background-color: #2e2e2e;
+	font-family: monospace;
+}
+
+#console-input {
+	margin-top: 10px;
+}
+
+#console-input > input {
+	width: 100%;
+	padding: 0.5em 0;
+	border: none;
+}
+
+#console-input > textarea {
+	display: none;
+	width: 100%;
+	height: 6em;
+	padding: 0.5em 0;
+	border: none;
+}

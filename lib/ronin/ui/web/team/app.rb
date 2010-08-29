@@ -67,6 +67,10 @@ module Ronin
             erb :chat
           end
 
+          get '/console' do
+            erb :console
+          end
+
           get '/ls' do
             env['faye.client'].publish('/ls', {:data => `nmap 127.0.0.1` }) if has_session?
             ""
