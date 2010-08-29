@@ -9,6 +9,7 @@ gem 'dm-migrations',	'~> 1.0.0', :git => 'http://github.com/postmodern/dm-migrat
 
 gem 'faye',		'~> 0.5.0'
 gem 'sinatra',		'~> 1.0'
+gem 'ronin-support',	'~> 0.1.0', :git => "#{RONIN}/ronin-support.git"
 gem 'ronin',		'~> 0.4.0', :git => "#{RONIN}/ronin.git"
 
 group(:development) do
