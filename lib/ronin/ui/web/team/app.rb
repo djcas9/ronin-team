@@ -89,7 +89,7 @@ module Ronin
             end
 
             if name
-              redirect "http://ronin.rubyforge.org/docs/#{name}/#{@url_path}.html#{@url_fragment}"
+              redirect "http://yardoc.org/docs/ronin-ruby-#{name}/#{@url_path}.html#{@url_fragment}"
             else
               erb :docs_not_found
             end
