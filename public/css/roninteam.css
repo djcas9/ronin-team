@@ -131,6 +131,20 @@ div.chat-holder ul.chat li{
 	background-color: #fff;
 }
 
+div.chat-holder ul.chat li a{
+	color: #0552fb;
+}
+
+div.chat-holder ul.chat li a:hover{
+	color: #143575;	
+}
+
+div.chat-holder ul.chat li img{
+	vertical-align: middle;
+	margin-top: -2px;
+	margin-left: 2px;
+}
+
 div.chat-holder ul.chat li span.datetime{
     -moz-border-radius-topright: 4px;
     -moz-border-radius-topleft: 4px;
@@ -140,13 +154,15 @@ div.chat-holder ul.chat li span.datetime{
 	display: block;
 	position: absolute;
 	overflow: hidden;
-	background-color: #eee;
+	background-color: #f2f2f2;
 	margin-right: 20px;
-	padding: 3px 10px;
-	color: #676767;
+	padding: 2px 7px;
+	color: #7b7b7b;
 	bottom: 0;
 	right: 0;
-	font-size: x-small;
+	font-size: xx-small;
+	border: 1px solid #fffeff;
+	border-bottom-style: none;
 }
 
 div.chat-holder ul.chat li.me:hover,

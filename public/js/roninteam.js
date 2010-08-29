@@ -8,7 +8,7 @@ jQuery.fn.highlight = function (text, o) {
 jQuery.fn.autolink = function () {
 	return this.each( function(){
 		var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
-		$(this).html( $(this).html().replace(re, '<a href="$1">$1</a> ') );
+		$(this).html( $(this).html().replace(re, '<a href="$1" target="_blank">$1</a>') );
 	});
 }
 
@@ -19,15 +19,19 @@ jQuery.fn.mailto = function () {
 	});
 }
 
-var RoninTeam = {
+function prettyDate(datetime) {
+	return datetime;
+}
 
+var RoninTeam = {
+	
 	chat: function(){
 		
 		$('form.chat-form').livequery(function() {
 			$(this).submit(function() {
 				var ChatInput = $('input#chat-input').val();
 				if (ChatInput.length !=0) {
-					RoninTeamServer.publish('/chat', {user: roninteam_user, message: ChatInput, timestamp: new Date()});
+					RoninTeamServer.publish('/chat', {user: roninteam_user, message: ChatInput, timestamp: Date.now()});
 					$('input#chat-input').val('');
 				};
 				return false;
@@ -74,18 +78,17 @@ Logger = {
 //RoninTeamServer.addExtension(Logger);
 
 var chatsub = RoninTeamServer.subscribe('/chat', function(chat) {
-  var TimeStamp = new Date().getTime();
-  console.log(TimeStamp);
+  var TimeStampId = new Date().getTime();
   if (roninteam_user == chat.user) {
-     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="me message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+chat.timestamp+'</span></li>');
+     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="me message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
   } else {
     if (chat.message.match(roninteam_user)) {
-      $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="highlight message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+chat.timestamp+'</span></li>');
+      $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="highlight message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
     } else {
-     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStamp+'" class="message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+chat.timestamp+'</span></li>');
+     $('ul.chat').append('<li style="opacity:0.1;" id="'+TimeStampId+'" class="message"><span class="user-name">'+chat.user+':</span> <span class="user-message">'+chat.message+'</span> <span class="datetime">'+prettyDate(chat.timestamp)+'</span></li>');
     };
   };
-  $('li#'+TimeStamp).animate({'opacity': 1}, 500);
+  $('li#'+TimeStampId).animate({'opacity': 1}, 500);
   $('ul.chat').scrollTo('100%', 1);
 });
 
