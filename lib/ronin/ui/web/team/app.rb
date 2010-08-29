@@ -20,6 +20,7 @@
 #
 
 require 'ronin/ui/web/team/helpers'
+require 'ronin/ui/output/helpers'
 require 'ronin/version'
 
 require 'sinatra'
@@ -39,6 +40,7 @@ module Ronin
           use Faye::RackAdapter, :mount => '/share', :timeout => 20
 
           helpers Team::Helpers
+          helpers UI::Output::Helpers
 
           before  do
             if no_session?
@@ -67,6 +69,8 @@ module Ronin
 
           get '/login' do
             if no_session?
+              print_info "User #{params[:username].dump} logged in."
+
               session[:username] = params[:username]
               session[:ipaddr] = env['REMOTE_ADDR']
               session[:agent] = env['HTTP_USER_AGENT']
