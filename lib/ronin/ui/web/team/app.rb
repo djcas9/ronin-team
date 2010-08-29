@@ -54,8 +54,8 @@ module Ronin
             if !(seen_intro?)
               redirect '/intro' unless request.path == '/intro'
             elsif no_session?
-              unless %w[/ /intro /setup /login].include?(request.path)
-                redirect '/setup'
+              unless %w[/ /intro /login].include?(request.path)
+                redirect '/login'
               end
             end
           end
@@ -70,18 +70,21 @@ module Ronin
           end
 
           get '/login' do
-            
+            erb :setup
+          end
+
+          post '/login' do
             if no_session?
               username = params[:username]
 
               if username.empty?
-                redirect '/setup'
+                redirect '/login'
               end
 
               if @@users.include?(username)
                 print_info "User #{username.dump} is already logged in."
 
-                redirect '/setup'
+                redirect '/login'
               end
 
               print_info "User #{username.dump} logged in."
@@ -94,11 +97,8 @@ module Ronin
               env['faye.client'].publish('/sysmsg', {:msg =>  "#{username} joined the chat."})
               @@users << username
             end
-            redirect '/chat'
-          end
 
-          get '/setup' do
-            erb :setup
+            redirect '/chat'
           end
 
           get '/chat' do
