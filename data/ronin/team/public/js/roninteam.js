@@ -7,12 +7,28 @@ var RoninTeam = {
   currentTime: function() {   return new Date().getTime(); },
 
   ChatRoom: {
-    createMessage: function() {
+    newMessage: function() {
       return $('<li style="opacity:0.1;" />').attr('id', RoninTeam.currentTime());
     },
 
-    addMessage: function(chat) {
-      var mesgNode = RoninTeam.ChatRoom.createMessage();
+    addMessage: function(mesgNode) {
+      $('ul.chat').append(mesgNode);
+      $('ul.chat').scrollTo('100%', 1);
+
+      mesgNode.animate({opacity: 1}, 500);
+      return mesgNode;
+    },
+
+    addStatusMessage: function(message) {
+      var mesgNode = RoninTeam.ChatRoom.newMessage();
+
+      $('<span />').text(message).appendTo(mesgNode);
+
+      return RoninTeam.ChatRoom.addMessage(mesgNode);
+    },
+
+    addUserMessage: function(chat) {
+      var mesgNode = RoninTeam.ChatRoom.newMessage();
       var classes = ['message'];
 
       if (roninteam_user == chat.user)
@@ -30,11 +46,12 @@ var RoninTeam = {
       $('<span class="user-message" />').text(chat.message).appendTo(mesgNode);
       $('<span class="datetime" />').text(chat.timestamp).appendTo(mesgNode);
 
-      $('ul.chat').append(mesgNode);
-      $('ul.chat').scrollTo('100%', 1);
+      return RoninTeam.ChatRoom.addMessage(mesgNode);
+    },
 
-      mesgNode.animate({'opacity': 1}, 500);
-      return mesgNode;
+    messageHandler: function(chat) {
+      RoninTeam.ChatRoom.addUserMessage(chat);
+      return true;
     },
 
     commands: {
@@ -62,6 +79,10 @@ var RoninTeam = {
           if (RoninTeam.ChatRoom.commands[commandName] != null)
           {
             RoninTeam.ChatRoom.commands[commandName]();
+          }
+          else
+          {
+            RoninTeam.ChatRoom.addStatusMessage('unknown command: ' + chatInput);
           }
         }
         else
@@ -105,7 +126,6 @@ jQuery(document).ready(function($) {
 	RoninTeam.tooltip();
 });
 
-
 jQuery.fn.highlight = function (text, o) {
 	return this.each( function(){
 		var replace = o || '<span class="highlight">$1</span>';
@@ -131,7 +151,6 @@ function prettyDate(datetime) {
 	return Date.now();
 };
 
-
 var RoninTeamServer = new Faye.Client('http://'+roninteam_server+'/share', { timeout: 120 });
 
 Logger = {
@@ -147,7 +166,7 @@ Logger = {
 
 RoninTeamServer.addExtension(Logger);
 
-var chatsub = RoninTeamServer.subscribe('/chat', RoninTeam.ChatRoom.addMessage);
+var chatsub = RoninTeamServer.subscribe('/chat', RoninTeam.ChatRoom.messageHandler);
 
 var users = RoninTeamServer.subscribe('/users', function(users) {
   var TitleData = 'IP Address: '+users.addr+''
