@@ -47,15 +47,14 @@ module Ronin
             return obj.to_json
           end
 
-          def has_session?
-            return true if session[:username]
-            redirect '/setup'
+          def no_session?
+            session[:username].nil?
           end
 
-          def no_session!
-            return true unless session[:username]
-            false
+          def has_session?
+            !(no_session?)
           end
+
         end
       end
     end

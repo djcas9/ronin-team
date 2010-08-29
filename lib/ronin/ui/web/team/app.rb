@@ -38,23 +38,29 @@ module Ronin
           use Faye::RackAdapter, :mount => '/share', :timeout => 20
 
           before  do
+            if no_session?
+              unless %w[/setup /login].include?(request.path)
+                redirect '/setup'
+              end
+            end
           end
 
           helpers Team::Helpers
 
           get '/' do
-            has_session?
             redirect '/chat'
           end
 
           get '/login' do
-            if no_session!
+            if no_session?
               session[:username] = params[:username]
               session[:ipaddr] = env['REMOTE_ADDR']
               session[:agent] = env['HTTP_USER_AGENT']
               session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
-              env['faye.client'].publish('/announce', {:newpush => true}) if has_session?
+
+              env['faye.client'].publish('/announce', {:newpush => true})
             end
+
             redirect '/chat'
           end
 
@@ -63,7 +69,6 @@ module Ronin
           end
 
           get '/chat' do
-            has_session?
             erb :chat
           end
 
