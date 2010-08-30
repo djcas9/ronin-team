@@ -51,15 +51,6 @@ GIT
       tzinfo (~> 0.3.22)
       uri-query_params (~> 0.4.0)
 
-GIT
-  remote: http://github.com/technicalpickles/jeweler.git
-  revision: 62f2651
-  specs:
-    jeweler (1.5.0.pre)
-      bundler (>= 1.0.0.rc.5)
-      git (>= 1.2.5)
-      rake
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -114,6 +105,10 @@ GEM
       rack (>= 1.0)
       thin (>= 1.2)
     git (1.2.5)
+    jeweler (1.5.0.pre2)
+      bundler (>= 1.0.0.rc.5)
+      git (>= 1.2.5)
+      rake
     json (1.4.6)
     json_pure (1.4.6)
     nokogiri (1.4.3.1)
@@ -155,7 +150,7 @@ DEPENDENCIES
   dm-core (~> 1.0.0)!
   dm-migrations (~> 1.0.0)!
   faye (~> 0.5.0)
-  jeweler (~> 1.5.0)!
+  jeweler (~> 1.5.0.pre)
   rack-test (~> 0.5.4)
   rake (~> 0.8.7)
   rdiscount (~> 1.6.3)
