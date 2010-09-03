@@ -143,7 +143,6 @@ var RoninTeam = {
 
 jQuery(document).ready(function($) {
 	RoninTeam.growl();
-	RoninTeam.onlineUserMenu();
   RoninTeam.helpers();
   RoninTeam.flashMessages();
   RoninTeam.chat();
