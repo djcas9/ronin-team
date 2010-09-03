@@ -1,5 +1,12 @@
 var RoninTeam = {
 
+	growl: function(){
+		$("#growl").notify({
+		    speed: 500,
+		    expires: 3000
+		});
+	},
+
 	helpers: function(){
 		//...
 	},
@@ -30,9 +37,14 @@ var RoninTeam = {
     addStatusMessage: function(message) {
       var mesgNode = RoninTeam.ChatRoom.newMessage();
 
-      $('<span />').text(message).appendTo(mesgNode);
-
-      return RoninTeam.ChatRoom.addMessage(mesgNode);
+			$('#growl').notify("create", {
+					    title: 'System Message:',
+					    text: message
+					},{
+					    expires: 3000,
+					    speed: 500
+					});
+			
     },
 
     addUserMessage: function(chat) {
@@ -130,6 +142,8 @@ var RoninTeam = {
 };
 
 jQuery(document).ready(function($) {
+	RoninTeam.growl();
+	RoninTeam.onlineUserMenu();
   RoninTeam.helpers();
   RoninTeam.flashMessages();
   RoninTeam.chat();

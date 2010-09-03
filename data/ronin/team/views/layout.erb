@@ -5,6 +5,7 @@
     <title>RoninTeam</title>
     
     <link rel="stylesheet" type="text/css" href="/css/roninteam.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css" media="screen">
     
     <script charset="utf-8" type="text/javascript">
       var roninteam_user = '<%= session[:username] || nil %>'
@@ -33,10 +34,12 @@
   
   <script type="text/javascript" src="/js/faye.js"></script>
   <script type="text/javascript" src="/js/jquery.js"></script>
+  <script type="text/javascript" src="/js/jquery-ui.js"></script>
   <script type="text/javascript" src="/js/jquery.livequery.js"></script>
   <script type="text/javascript" src="/js/jquery.tipsy.js"></script>
   <script type="text/javascript" src="/js/scrollto.js"></script>
   <script type="text/javascript" src="/js/Datejs.js"></script>
+  <script type="text/javascript" src="/js/growl.js"></script>
   <script type="text/javascript" src="/js/roninteam.js"></script>
     
   <script type="text/javascript">
@@ -45,6 +48,8 @@
   <% end %>
   </script>
   <% flash.clear %>
+
+  <%= erb(:notifications, :layout => false) %>
 
   </body>
   
