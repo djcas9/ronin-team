@@ -111,6 +111,7 @@ GEM
       rake
     json (1.4.6)
     json_pure (1.4.6)
+    macaddr (1.0.0)
     nokogiri (1.4.3.1)
     open_namespace (0.3.0)
     parameters (0.2.2)
@@ -139,6 +140,8 @@ GEM
     thor (0.14.0)
     tzinfo (0.3.23)
     uri-query_params (0.4.0)
+    uuid (2.3.1)
+      macaddr (~> 1.0)
     uuidtools (2.1.1)
     yard (0.5.8)
 
@@ -158,4 +161,5 @@ DEPENDENCIES
   ronin-support (~> 0.1.0)!
   rspec (~> 2.0.0.beta.20)
   sinatra (~> 1.0)
+  uuid (~> 2.3.1)
   yard (~> 0.5.3)

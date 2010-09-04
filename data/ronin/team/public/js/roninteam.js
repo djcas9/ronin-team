@@ -200,16 +200,19 @@ RoninTeamServer.addExtension(Logger);
 var chatsub = RoninTeamServer.subscribe('/chat', RoninTeam.ChatRoom.messageHandler);
 
 var users = RoninTeamServer.subscribe('/users', function(users) {
+	//var users = localStorage(users);
   var TitleData = 'IP Address: '+users.addr+''
   var UserData = '<img src="../images/user.png" width="16px" height="16px" alt="User"> '+ users.user
-  if (!$('ul.user-list li.'+users.user).is(':visible')) {
+  if ($('ul.user-list li.'+users.user).length == 0) {
+		
     if (roninteam_user == users.user) {
-       $('ul.user-list').append('<li class="me '+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
+			RoninTeamServer.publish('/sysmsg', {message: users.user + ' joined the chat.'});
+			$('ul.user-list').append('<li class="me '+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
+			// $('ul.chat').append('<li>'+users.user+' entered the chat.</li>');
     } else {
-       $('ul.user-list').append('<li class="'+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
+			$('ul.user-list').append('<li class="'+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
     };
   };
-  if (users.new_join) { $('ul.chat').append('<li>'+users.user+' entered the chat.</li>'); };
 });
 
 var sysmsg = RoninTeamServer.subscribe('/sysmsg', function(system) {
@@ -217,7 +220,7 @@ var sysmsg = RoninTeamServer.subscribe('/sysmsg', function(system) {
 });
 
 var announce = RoninTeamServer.subscribe('/announce', function(announce) {
-  RoninTeamServer.publish('/users', {user: roninteam_user, agent: roninteam_agent, lang: roninteam_lang, addr: roninteam_addr, newpush: announce.newpush});
+  RoninTeamServer.publish('/users', {user: roninteam_user, agent: roninteam_agent, lang: roninteam_lang, addr: roninteam_addr});
 });
 
 var commandsub = RoninTeamServer.subscribe('/ls', function(comm) {
@@ -225,7 +228,4 @@ var commandsub = RoninTeamServer.subscribe('/ls', function(comm) {
 });
 
 
-if (roninteam_user.length != 0) {
-  RoninTeamServer.publish('/users', {user: roninteam_user, agent: roninteam_agent, lang: roninteam_lang, addr: roninteam_addr});
-  RoninTeamServer.publish('/announce', {newpush: false});
-};
+if (roninteam_user.length != 0) { RoninTeamServer.publish('/announce', {}) };

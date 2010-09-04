@@ -8,10 +8,11 @@
     <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css" media="screen">
     
     <script charset="utf-8" type="text/javascript">
-      var roninteam_user = '<%= session[:username] || nil %>'
-      var roninteam_agent = '<%= session[:agent] || nil %>'
-      var roninteam_lang = '<%= session[:lang] || nil %>'
-      var roninteam_addr = '<%= session[:ipaddr] || nil %>'
+      var roninteam_user = '<%= session[:username] %>'
+      var roninteam_agent = '<%= session[:agent] %>'
+      var roninteam_lang = '<%= session[:lang] %>'
+      var roninteam_addr = '<%= session[:ipaddr] %>'
+      var roninteam_uuid = '<%= session[:uuid] %>'
       var roninteam_server = "<%= env['HTTP_HOST'] %>"
     </script>
     

@@ -26,6 +26,7 @@ require 'ronin/version'
 
 require 'sinatra'
 require 'faye'
+require 'uuid'
 require 'set'
 
 module Ronin
@@ -93,11 +94,10 @@ module Ronin
               print_info "User #{username.dump} logged in."
 
               session[:username] = username
+              session[:uuid] = UUID.new
               session[:ipaddr] = env['REMOTE_ADDR']
               session[:agent] = env['HTTP_USER_AGENT']
               session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
-
-              env['faye.client'].publish('/sysmsg', {:msg =>  "#{username} joined the chat."})
               @@users << username
             end
 
