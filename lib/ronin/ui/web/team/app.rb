@@ -138,7 +138,7 @@ module Ronin
 
 
           get '/ls' do
-            env['faye.client'].publish('/ls', {:data => `nmap 127.0.0.1` }) if has_session?
+            env['faye.client'].publish('/sysmsg', {:message => `nmap 127.0.0.1` }) if has_session?
             ""
           end
 

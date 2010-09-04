@@ -34,17 +34,22 @@ var RoninTeam = {
       return mesgNode;
     },
 
-    addStatusMessage: function(message) {
+    addStatusMessage: function(message,user) {
       var mesgNode = RoninTeam.ChatRoom.newMessage();
-
+			
+			if (user != undefined) {
+				var MessageTitle = user + ' said:';
+			} else {
+				var MessageTitle = 'System Message:';
+			};
+			
 			$('#growl').notify("create", {
-					    title: 'System Message:',
+					    title: MessageTitle,
 					    text: message
 					},{
 					    expires: 3000,
 					    speed: 500
 					});
-			
     },
 
     addUserMessage: function(chat) {
@@ -78,9 +83,12 @@ var RoninTeam = {
       'clear': function() { $('ul.chat > li').remove(); },
 
       'nick': function(nick) {
-				console.log();
         // stub for nick command
       },
+
+			'notice': function(notice) {
+				RoninTeamServer.publish('/sysmsg', {message: notice, user: roninteam_user});
+			},
 
       'help': function() {
         // stub for help command
@@ -204,8 +212,8 @@ var users = RoninTeamServer.subscribe('/users', function(users) {
   if (users.new_join) { $('ul.chat').append('<li>'+users.user+' entered the chat.</li>'); };
 });
 
-var sysmsg = RoninTeamServer.subscribe('/sysmsg', function(ronin_team_system) {
-  $('ul.chat').append('<li class="sysmsg">'+ronin_team_system.msg+'</li>');
+var sysmsg = RoninTeamServer.subscribe('/sysmsg', function(system) {
+	RoninTeam.ChatRoom.addStatusMessage(system.message,system.user);
 });
 
 var announce = RoninTeamServer.subscribe('/announce', function(announce) {
