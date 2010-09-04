@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dustin Willis Webber", "Postmodern"]
-  s.date = %q{2010-08-28}
+  s.date = %q{2010-09-04}
   s.default_executable = %q{ronin-team}
   s.description = %q{Ronin Team is a real-time web application, designed to help Security Researchers collaborate.}
   s.email = ["dustin.webber@gmail.com", "postmodern.mod3@gmail.com"]
@@ -29,12 +29,30 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "bin/ronin-team",
+    "config.ru",
     "data/ronin/team/public/css/console.css",
+    "data/ronin/team/public/css/images/ui-bg_diagonals-thick_18_b81900_40x40.png",
+    "data/ronin/team/public/css/images/ui-bg_diagonals-thick_20_666666_40x40.png",
+    "data/ronin/team/public/css/images/ui-bg_flat_10_000000_40x100.png",
+    "data/ronin/team/public/css/images/ui-bg_glass_100_f6f6f6_1x400.png",
+    "data/ronin/team/public/css/images/ui-bg_glass_100_fdf5ce_1x400.png",
+    "data/ronin/team/public/css/images/ui-bg_glass_65_ffffff_1x400.png",
+    "data/ronin/team/public/css/images/ui-bg_gloss-wave_35_f6a828_500x100.png",
+    "data/ronin/team/public/css/images/ui-bg_highlight-soft_100_eeeeee_1x100.png",
+    "data/ronin/team/public/css/images/ui-bg_highlight-soft_75_ffe45c_1x100.png",
+    "data/ronin/team/public/css/images/ui-icons_222222_256x240.png",
+    "data/ronin/team/public/css/images/ui-icons_228ef1_256x240.png",
+    "data/ronin/team/public/css/images/ui-icons_ef8c08_256x240.png",
+    "data/ronin/team/public/css/images/ui-icons_ffd27a_256x240.png",
+    "data/ronin/team/public/css/images/ui-icons_ffffff_256x240.png",
+    "data/ronin/team/public/css/jquery-ui.css",
     "data/ronin/team/public/css/roninteam.css",
     "data/ronin/team/public/images/clouds.png",
+    "data/ronin/team/public/images/diamond.png",
     "data/ronin/team/public/images/header-bg.png",
     "data/ronin/team/public/images/icons/link.png",
     "data/ronin/team/public/images/icons/mail.png",
+    "data/ronin/team/public/images/logo-intro.png",
     "data/ronin/team/public/images/logo-water.png",
     "data/ronin/team/public/images/logo.png",
     "data/ronin/team/public/images/tipsy.gif",
@@ -43,14 +61,20 @@ Gem::Specification.new do |s|
     "data/ronin/team/public/js/Datejs.js",
     "data/ronin/team/public/js/console.js",
     "data/ronin/team/public/js/faye.js",
+    "data/ronin/team/public/js/growl.js",
+    "data/ronin/team/public/js/jquery-ui.js",
     "data/ronin/team/public/js/jquery.js",
     "data/ronin/team/public/js/jquery.livequery.js",
     "data/ronin/team/public/js/jquery.tipsy.js",
+    "data/ronin/team/public/js/raphael.js",
     "data/ronin/team/public/js/roninteam.js",
     "data/ronin/team/public/js/scrollto.js",
     "data/ronin/team/views/chat.erb",
+    "data/ronin/team/views/console.erb",
     "data/ronin/team/views/docs_not_found.erb",
+    "data/ronin/team/views/intro.erb",
     "data/ronin/team/views/layout.erb",
+    "data/ronin/team/views/notifications.erb",
     "data/ronin/team/views/setup.erb",
     "lib/ronin/team/version.rb",
     "lib/ronin/ui/command_line/commands/team.rb",
@@ -75,22 +99,24 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<dm-migrations>, ["~> 1.0.0"])
       s.add_runtime_dependency(%q<faye>, ["~> 0.5.0"])
       s.add_runtime_dependency(%q<sinatra>, ["~> 1.0"])
+      s.add_runtime_dependency(%q<uuid>, ["~> 2.3.1"])
       s.add_runtime_dependency(%q<ronin-support>, ["~> 0.1.0"])
       s.add_runtime_dependency(%q<ronin>, ["~> 0.4.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<rake>, ["~> 0.8.7"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_development_dependency(%q<jeweler>, ["~> 1.5.0.pre"])
       s.add_development_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
     else
       s.add_dependency(%q<dm-core>, ["~> 1.0.0"])
       s.add_dependency(%q<dm-migrations>, ["~> 1.0.0"])
       s.add_dependency(%q<faye>, ["~> 0.5.0"])
       s.add_dependency(%q<sinatra>, ["~> 1.0"])
+      s.add_dependency(%q<uuid>, ["~> 2.3.1"])
       s.add_dependency(%q<ronin-support>, ["~> 0.1.0"])
       s.add_dependency(%q<ronin>, ["~> 0.4.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<rake>, ["~> 0.8.7"])
-      s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.5.0.pre"])
       s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
     end
   else
@@ -98,11 +124,12 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<dm-migrations>, ["~> 1.0.0"])
     s.add_dependency(%q<faye>, ["~> 0.5.0"])
     s.add_dependency(%q<sinatra>, ["~> 1.0"])
+    s.add_dependency(%q<uuid>, ["~> 2.3.1"])
     s.add_dependency(%q<ronin-support>, ["~> 0.1.0"])
     s.add_dependency(%q<ronin>, ["~> 0.4.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<rake>, ["~> 0.8.7"])
-    s.add_dependency(%q<jeweler>, ["~> 1.5.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.5.0.pre"])
     s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
   end
 end
