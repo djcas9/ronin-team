@@ -47,10 +47,6 @@ module Ronin
           configure do
             @@users = Set[]
             
-            trap('SIGINT') do
-              env['faye.client'].publish('/sysmsg', {:msg => "Server Restarting... Please Wait."})
-            end
-
             Database.setup
           end
 
@@ -98,6 +94,7 @@ module Ronin
               session[:ipaddr] = env['REMOTE_ADDR']
               session[:agent] = env['HTTP_USER_AGENT']
               session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
+
               @@users << username
             end
 
