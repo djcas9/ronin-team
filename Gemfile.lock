@@ -140,6 +140,8 @@ GEM
     tzinfo (0.3.23)
     uri-query_params (0.4.0)
     uuidtools (2.1.1)
+    warden (0.10.7)
+      rack (>= 1.0.0)
     yard (0.5.8)
 
 PLATFORMS
@@ -159,4 +161,5 @@ DEPENDENCIES
   rspec (~> 2.0.0.beta.20)
   sinatra (~> 1.0)
   uuidtools (~> 2.1.1)
+  warden (~> 0.10.0)
   yard (~> 0.5.3)
