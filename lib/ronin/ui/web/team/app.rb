@@ -51,7 +51,7 @@ module Ronin
 
           register Sinatra::Warden
 
-          set :auth_success_path, '/chat'
+          set :auth_success_path, '/sessions/new'
           set :auth_failure_path, '/login'
           set :auth_use_erb, true
 
@@ -86,20 +86,28 @@ module Ronin
             erb :login, :layout => false
           end
 
-          post '/login' do
-            authenticate
-            user_name = params[:name]
+          get '/sessions/new' do
+            authorize!
 
-            print_info "User #{user_name.dump} logged in."
+            unless @@users.include?(user.name)
+              print_info "User #{user.name.dump} logged in."
+              @@users << user.name
+            end
 
-            @@users << user_name
+            redirect '/chat'
+          end
+
+          get '/sessions/destroy' do
+            authorize!
+
+            env['faye.client'].publish('/announce', {})
+
+            print_info "User #{user.name.dump} logging out ..."
+            @@users.delete(user.name)
+
+            redirect '/logout'
           end
           
-          get '/logout' do
-            session = {}
-            env['faye.client'].publish('/announce', {})
-          end
-
           get '/chat' do
             authorize!
 
