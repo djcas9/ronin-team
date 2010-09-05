@@ -82,7 +82,10 @@ var RoninTeam = {
     },
 
     commands: {
-      'clear': function() { $('ul.chat > li').remove(); },
+      'clear': function() { 
+				$('ul.chat > li').remove(); 
+				localStorage.setItem('chat', '');
+			},
 
       'nick': function(nick) {
         // stub for nick command
