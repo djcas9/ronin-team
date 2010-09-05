@@ -9,7 +9,7 @@ var RoninTeam = {
 
 	helpers: function(){
 		$('ul.chat').scrollTo('100%', 1);
-		$('ul.chat li').css('opacity', 1);
+		$('ul.chat li').css('opacity', 0.4);
 	},
 
   currentTime: function() {   return new Date().getTime(); },
