@@ -40,11 +40,16 @@ Warden::Strategies.add(:password) do
   def authenticate!
 
     user = Ronin::Team::User.authenticate(
-      :user_name => params['user_name'],
+      :name => params['name'],
       :password => params['password']
     )
 
     if user
+      session[:username] = user.name
+      session[:uuid] = UUIDTools::UUID.random_create.to_s
+      session[:ipaddr] = env['REMOTE_ADDR']
+      session[:agent] = env['HTTP_USER_AGENT']
+      session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
       success!(user)
     else
       errors.add(:login, "Username or Password incorrect")

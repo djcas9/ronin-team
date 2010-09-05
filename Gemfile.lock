@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: http://github.com/datamapper/dm-types.git
-  revision: 2b9648fab2028d519896a278f314f75f61c39b60
+  revision: 2b9648f
   specs:
     dm-types (1.0.0)
       dm-core (~> 1.0.0)
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: http://github.com/postmodern/dm-is-authenticatable.git
-  revision: e425780f5431480d36fa0b17086dbb74ea19a72d
+  revision: e425780
   specs:
     dm-is-authenticatable (0.1.0)
       activesupport (~> 3.0.0)
