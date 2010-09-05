@@ -87,11 +87,10 @@ module Ronin
 
           post '/login' do
             authenticate
-
             user_name = params[:name]
 
             print_info "User #{user_name.dump} logged in."
-            
+
             @@users << user_name
           end
           
