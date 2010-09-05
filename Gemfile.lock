@@ -137,6 +137,9 @@ GEM
     rspec-mocks (2.0.0.beta.20)
     sinatra (1.0)
       rack (>= 1.0)
+    sinatra_warden (0.3.1)
+      sinatra (>= 0.9.4)
+      warden (>= 0.10.3)
     stringex (1.1.0)
     thin (1.2.7)
       daemons (>= 1.0.9)
@@ -168,6 +171,6 @@ DEPENDENCIES
   ronin-support (~> 0.1.0)!
   rspec (~> 2.0.0.beta.20)
   sinatra (~> 1.0)
+  sinatra_warden (~> 0.3.0)
   uuidtools (~> 2.1.1)
-  warden (~> 0.10.0)
   yard (~> 0.5.3)

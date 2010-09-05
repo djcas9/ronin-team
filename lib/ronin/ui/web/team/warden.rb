@@ -19,47 +19,32 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/model'
+require 'ronin/team/user'
 
-require 'dm-types'
+require 'warden'
 
-module Ronin
-  module Team
-    class User
+Warden::Manager.serialize_into_session { |user| user.id }
+Warden::Manager.serialize_from_session { |id| Ronin::Team::User.get(id) }
 
-      include Model
+Warden::Manager.before_failure do |env,opts|
+  # Sinatra can be picky about the method used to authenticate
+  # so to be sure everything works, let's specify it here.
+  env['REQUEST_METHOD'] = "POST"
+end
 
-      # The primary key of the user
-      property :id, Serial
+Warden::Strategies.add(:password) do
+  def valid?
+    params['user_name'] || params['password']
+  end
 
-      # The user name
-      property :user_name, String, :required => true
+  def authenticate!
+    user = Ronin::Team::User.first(:user_name => params['user_name'])
 
-      # The encrypted password of the user
-      property :encrypted_password, BCryptHash, :required => true
-
-      # The clear-text password
-      attr_reader :password
-
-      # The confirmation password
-      attr_accessor :password_confirmation
-
-      validates_confirmation_of :password
-
-      #
-      # Sets the password of the user.
-      #
-      # @param [String] new_password
-      #   The new password for the user.
-      #
-      # @return [String]
-      #   The new password of the user.
-      #
-      def password=(new_password)
-        self.encrypted_password = new_password
-        @password = new_password
-      end
-
+    if (user && user.encrypted_password == params['password'])
+      success!(user)
+    else
+      errors.add(:login, "Username or Password incorrect")
+      fail!
     end
   end
 end

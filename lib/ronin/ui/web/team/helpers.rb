@@ -51,14 +51,6 @@ module Ronin
             session[:seen_intro] == true
           end
 
-          def no_session?
-            session[:username].nil?
-          end
-
-          def has_session?
-            !(no_session?)
-          end
-
           #
           # The flash messages for the session.
           #
