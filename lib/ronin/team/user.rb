@@ -21,7 +21,7 @@
 
 require 'ronin/model'
 
-require 'dm-types'
+require 'dm-is-authenticatable'
 
 module Ronin
   module Team
@@ -29,36 +29,13 @@ module Ronin
 
       include Model
 
+      is :authenticatable
+
       # The primary key of the user
       property :id, Serial
 
       # The user name
       property :user_name, String, :required => true
-
-      # The encrypted password of the user
-      property :encrypted_password, BCryptHash, :required => true
-
-      # The clear-text password
-      attr_reader :password
-
-      # The confirmation password
-      attr_accessor :password_confirmation
-
-      validates_confirmation_of :password
-
-      #
-      # Sets the password of the user.
-      #
-      # @param [String] new_password
-      #   The new password for the user.
-      #
-      # @return [String]
-      #   The new password of the user.
-      #
-      def password=(new_password)
-        self.encrypted_password = new_password
-        @password = new_password
-      end
 
     end
   end

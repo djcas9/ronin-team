@@ -18,6 +18,17 @@ GIT
       uuidtools (~> 2.1.1)
 
 GIT
+  remote: http://github.com/postmodern/dm-is-authenticatable.git
+  revision: e425780f5431480d36fa0b17086dbb74ea19a72d
+  specs:
+    dm-is-authenticatable (0.1.0)
+      activesupport (~> 3.0.0)
+      bcrypt-ruby
+      dm-core (~> 1.0.0)
+      dm-types (~> 1.0.0)
+      dm-validations (~> 1.0.0)
+
+GIT
   remote: http://github.com/postmodern/dm-migrations.git
   revision: a352ef2
   branch: runner
@@ -160,6 +171,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 2.1.0)
   bundler (~> 1.0.0)
   dm-core (~> 1.0.0)!
+  dm-is-authenticatable (~> 0.1.0)!
   dm-migrations (~> 1.0.0)!
   dm-types (~> 1.0.0)!
   faye (~> 0.5.0)
