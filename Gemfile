@@ -1,14 +1,16 @@
 source 'https://rubygems.org'
 
 DATA_MAPPER = 'http://github.com/datamapper'
+DM_VERSION = '~> 1.0.0'
 RONIN = 'http://github.com/ronin-ruby'
 
 gem 'bcrypt-ruby',	'~> 2.1.0'
 
 # DataMapper dependencies
-gem 'dm-core',		'~> 1.0.0', :git => "#{DATA_MAPPER}/dm-core.git"
-gem 'dm-types',		'~> 1.0.0', :git => "#{DATA_MAPPER}/dm-types.git"
-gem 'dm-migrations',	'~> 1.0.0', :git => 'http://github.com/postmodern/dm-migrations.git', :branch => 'runner'
+gem 'dm-core',		DM_VERSION, :git => "#{DATA_MAPPER}/dm-core.git"
+gem 'dm-types',		DM_VERSION, :git => "#{DATA_MAPPER}/dm-types.git"
+gem 'dm-migrations',	DM_VERSION, :git => 'http://github.com/postmodern/dm-migrations.git', :branch => 'runner'
+gem 'dm-serializer',	DM_VERSION, :git => "#{DATA_MAPPER}/dm-serializer.git"
 
 gem 'dm-is-authenticatable',	'~> 0.1.0', :git => 'http://github.com/postmodern/dm-is-authenticatable.git'
 

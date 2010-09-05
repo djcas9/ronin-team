@@ -27,11 +27,12 @@ require 'ronin/database/migrations/team'
 require 'ronin/database'
 require 'ronin/version'
 
+require 'set'
+require 'uuidtools'
+require 'dm-serializer'
 require 'sinatra'
 require 'sinatra_warden'
 require 'faye'
-require 'uuidtools'
-require 'set'
 
 module Ronin
   module UI
