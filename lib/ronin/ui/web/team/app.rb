@@ -22,6 +22,7 @@
 require 'ronin/ui/web/team/warden'
 require 'ronin/ui/web/team/helpers'
 require 'ronin/ui/output/helpers'
+require 'ronin/database/migrations/team'
 require 'ronin/database'
 require 'ronin/version'
 
