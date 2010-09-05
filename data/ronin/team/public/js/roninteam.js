@@ -190,11 +190,19 @@ var RoninTeamServer = new Faye.Client('http://'+roninteam_server+'/share', { tim
 
 Logger = {
   incoming: function(message, callback) {
-    console.log('incoming', message);
+    if (window.console != undefined)
+    {
+      console.log('incoming', message);
+    }
+
     callback(message);
   },
   outgoing: function(message, callback) {
-    console.log('outgoing', message);
+    if (window.console != undefined)
+    {
+      console.log('outgoing', message);
+    }
+
     callback(message);
   }
 };
