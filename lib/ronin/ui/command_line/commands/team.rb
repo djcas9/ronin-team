@@ -21,6 +21,8 @@
 
 require 'ronin/ui/command_line/command'
 require 'ronin/ui/web/team/app'
+require 'ronin/database'
+require 'ronin/team'
 
 module Ronin
   module UI
@@ -35,8 +37,88 @@ module Ronin
           class_option :host, :type => :string, :aliases => '-I'
           class_option :port, :type => :numeric, :aliases => '-p'
 
+          class_option :users, :type => :boolean, :aliases => '-u'
+          class_option :add, :type => :hash, :aliases => '-a'
+          class_option :remove, :type => :string, :aliases =>' -r'
+          class_option :passwords, :type => :hash
+
           def execute
-            UI::Web::Team::App.run!(options)
+            if options[:users]
+              users!
+            elsif options[:add]
+              add!
+            elsif options[:remove]
+              remove!
+            elsif options[:passwords]
+              passwords!
+            else
+              UI::Web::Team::App.run!(options)
+            end
+          end
+
+          protected
+
+          def users!
+            Database.setup
+
+            indent do
+              Ronin::Team::User.all.each { |user| puts user.name }
+            end
+          end
+
+          def add!
+            Database.setup
+
+            options[:add].each_key do |name|
+              unless Ronin::Team::User.count(:name => name) == 0
+                print_error "User name #{name.dump} already taken."
+                exit -1
+              end
+            end
+
+            options[:add].each do |name,password|
+              print_info "Creating user #{name.dump} ..."
+
+              user = Ronin::Team::User.create(
+                :name => name,
+                :password => password
+              )
+            end
+
+            print_info "Users created."
+          end
+
+          def remove!
+            name = options[:remove]
+
+            Database.setup
+
+            unless (user = Team::User.first(:name => name))
+              print_error "Unknown user #{name.dump}"
+              exit -1
+            end
+
+            user.destroy!
+
+            print_info "Removed user #{name.dump}."
+          end
+
+          def passwords!
+            Database.setup
+
+            options[:passwords].each do |name,password|
+              unless (user = Ronin::Team::User.first(:name => name))
+                print_error "Unknown user #{name.dump}."
+                exit -1
+              end
+
+              print_info "Setting password for user #{name.dump} ..."
+
+              user.password = password
+              user.save!
+            end
+
+            print_info "User passwords set."
           end
 
         end
