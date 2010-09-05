@@ -117,78 +117,116 @@ module Ronin
           end
 
           get '/campaigns' do
+            authorize!
+
             json Campaign.all
           end
 
           get '/campaigns/:id' do
+            authorize!
+
             json Campaign.get(params[:id])
           end
 
           get '/campaigns/:id/addresses' do
+            authorize!
+
             json Address.all('campaign.id' => params[:id])
           end
 
           get '/campaigns/:id/mac_addresses' do
+            authorize!
+
             json MACAddress.all('campaign.id' => params[:id])
           end
 
           get '/campaigns/:id/ip_addresses' do
+            authorize!
+
             json IPAddress.all('campaign.id' => params[:id])
           end
 
           get '/campaigns/:id/host_names' do
+            authorize!
+
             json HostName.all('campaign.id' => params[:id])
           end
 
           get '/campaign/:id/urls' do
+            authorize!
+
             json URL.all('host_name.campaign.id' => params[:id])
           end
 
           get '/campaign/:id/emails' do
+            authorize!
+
             json EmailAddress.all('host_name.campaign.id' => params[:id])
           end
 
           get '/addresses/:address' do
+            authorize!
+
             json Address.first(:address => params[:address])
           end
 
           get '/mac_addresses/:mac' do
+            authorize!
+
             json MACAddress.first(:address => params[:address])
           end
 
           get '/mac_addresses/:mac/ip_addresses' do
+            authorize!
+
             json IPAddress.all('mac_addresses.address' => params[:mac])
           end
 
           get '/ip_addresses/:ip' do
+            authorize!
+
             json IPAddress.first(:address => params[:ip])
           end
 
           get '/ip_addresses/:ip/open_ports' do
+            authorize!
+
             json OpenPort.all('ip_address.address' => params[:ip])
           end
 
           get '/ip_addresses/:ip/os_guesses' do
+            authorize!
+
             json OSGuess.all('ip_address.address' => params[:ip])
           end
 
           get '/host_names/:name' do
+            authorize!
+
             json HostName.first(:address => params[:name])
           end
 
           get '/host_names/:name/ip_addresses' do
+            authorize!
+
             json IPAddress.all('host_names.address' => params[:name])
           end
 
           get '/host_names/:name/urls' do
+            authorize!
+
             json URL.all('host_name.address' => params[:name])
           end
 
           get '/urls/:id' do
+            authorize!
+
             json URL.get(:id)
           end
 
           get %r{/docs/([A-Za-z0-9:]+)(/(class|instance)_method/(.+))?} do
+            authorize!
+
             @class_name = params[:captures][0]
             @url_path = @class_name.gsub(/::/,'/')
 
