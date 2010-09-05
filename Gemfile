@@ -10,6 +10,8 @@ gem 'dm-core',		'~> 1.0.0', :git => "#{DATA_MAPPER}/dm-core.git"
 gem 'dm-types',		'~> 1.0.0', :git => "#{DATA_MAPPER}/dm-types.git"
 gem 'dm-migrations',	'~> 1.0.0', :git => 'http://github.com/postmodern/dm-migrations.git', :branch => 'runner'
 
+gem 'dm-is-authenticatable',	'~> 0.1.0', :git => 'http://github.com/postmodern/dm-is-authenticatable.git'
+
 gem 'faye',		'~> 0.5.0'
 gem 'uuidtools', 	'~> 2.1.1'
 gem 'sinatra',		'~> 1.0'

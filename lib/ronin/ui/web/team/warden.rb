@@ -38,9 +38,13 @@ Warden::Strategies.add(:password) do
   end
 
   def authenticate!
-    user = Ronin::Team::User.first(:name => params['name'])
 
-    if (user && user.encrypted_password == params['password'])
+    user = Ronin::Team::User.authenticate(
+      :user_name => params['user_name'],
+      :password => params['password']
+    )
+
+    if user
       success!(user)
     else
       errors.add(:login, "Username or Password incorrect")

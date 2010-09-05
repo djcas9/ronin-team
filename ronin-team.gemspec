@@ -74,13 +74,18 @@ Gem::Specification.new do |s|
     "data/ronin/team/views/docs_not_found.erb",
     "data/ronin/team/views/intro.erb",
     "data/ronin/team/views/layout.erb",
+    "data/ronin/team/views/login.erb",
     "data/ronin/team/views/notifications.erb",
-    "data/ronin/team/views/setup.erb",
+    "lib/ronin/database/migrations/team.rb",
+    "lib/ronin/database/migrations/team/create_users_table.rb",
+    "lib/ronin/team.rb",
+    "lib/ronin/team/user.rb",
     "lib/ronin/team/version.rb",
     "lib/ronin/ui/command_line/commands/team.rb",
     "lib/ronin/ui/web/team.rb",
     "lib/ronin/ui/web/team/app.rb",
     "lib/ronin/ui/web/team/helpers.rb",
+    "lib/ronin/ui/web/team/warden.rb",
     "ronin-team.gemspec"
   ]
   s.has_rdoc = %q{yard}
@@ -95,11 +100,15 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<bcrypt-ruby>, ["~> 2.1.0"])
       s.add_runtime_dependency(%q<dm-core>, ["~> 1.0.0"])
+      s.add_runtime_dependency(%q<dm-types>, ["~> 1.0.0"])
       s.add_runtime_dependency(%q<dm-migrations>, ["~> 1.0.0"])
+      s.add_runtime_dependency(%q<dm-is-authenticatable>, ["~> 0.1.0"])
       s.add_runtime_dependency(%q<faye>, ["~> 0.5.0"])
+      s.add_runtime_dependency(%q<uuidtools>, ["~> 2.1.1"])
       s.add_runtime_dependency(%q<sinatra>, ["~> 1.0"])
-      s.add_runtime_dependency(%q<uuid>, ["~> 2.3.1"])
+      s.add_runtime_dependency(%q<sinatra_warden>, ["~> 0.3.0"])
       s.add_runtime_dependency(%q<ronin-support>, ["~> 0.1.0"])
       s.add_runtime_dependency(%q<ronin>, ["~> 0.4.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -107,11 +116,15 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.0.pre"])
       s.add_development_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
     else
+      s.add_dependency(%q<bcrypt-ruby>, ["~> 2.1.0"])
       s.add_dependency(%q<dm-core>, ["~> 1.0.0"])
+      s.add_dependency(%q<dm-types>, ["~> 1.0.0"])
       s.add_dependency(%q<dm-migrations>, ["~> 1.0.0"])
+      s.add_dependency(%q<dm-is-authenticatable>, ["~> 0.1.0"])
       s.add_dependency(%q<faye>, ["~> 0.5.0"])
+      s.add_dependency(%q<uuidtools>, ["~> 2.1.1"])
       s.add_dependency(%q<sinatra>, ["~> 1.0"])
-      s.add_dependency(%q<uuid>, ["~> 2.3.1"])
+      s.add_dependency(%q<sinatra_warden>, ["~> 0.3.0"])
       s.add_dependency(%q<ronin-support>, ["~> 0.1.0"])
       s.add_dependency(%q<ronin>, ["~> 0.4.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
@@ -120,11 +133,15 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
     end
   else
+    s.add_dependency(%q<bcrypt-ruby>, ["~> 2.1.0"])
     s.add_dependency(%q<dm-core>, ["~> 1.0.0"])
+    s.add_dependency(%q<dm-types>, ["~> 1.0.0"])
     s.add_dependency(%q<dm-migrations>, ["~> 1.0.0"])
+    s.add_dependency(%q<dm-is-authenticatable>, ["~> 0.1.0"])
     s.add_dependency(%q<faye>, ["~> 0.5.0"])
+    s.add_dependency(%q<uuidtools>, ["~> 2.1.1"])
     s.add_dependency(%q<sinatra>, ["~> 1.0"])
-    s.add_dependency(%q<uuid>, ["~> 2.3.1"])
+    s.add_dependency(%q<sinatra_warden>, ["~> 0.3.0"])
     s.add_dependency(%q<ronin-support>, ["~> 0.1.0"])
     s.add_dependency(%q<ronin>, ["~> 0.4.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
