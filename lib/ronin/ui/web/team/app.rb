@@ -66,7 +66,7 @@ module Ronin
           end
 
           before  do
-            if !(seen_intro?)
+            unless seen_intro?
               redirect '/intro' unless request.path == '/intro'
             end
           end
