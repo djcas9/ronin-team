@@ -223,6 +223,10 @@ var announce = RoninTeamServer.subscribe('/announce', function(announce) {
   RoninTeamServer.publish('/users', {user: roninteam_user, agent: roninteam_agent, lang: roninteam_lang, addr: roninteam_addr});
 });
 
+var privmsg = RoninTeamServer.subscribe('/chat/'+roninteam_user, function(privmsg) {
+  $('ul.chat').append('<li><pre>'+privmsg.message+'</pre></li>');
+});
+
 var commandsub = RoninTeamServer.subscribe('/ls', function(comm) {
   $('ul.chat').append('<li><pre>'+comm.data+'</pre></li>');
 });
