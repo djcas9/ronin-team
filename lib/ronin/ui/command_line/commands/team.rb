@@ -106,14 +106,17 @@ module Ronin
           def passwords!
             Database.setup
 
-            options[:passwords].each do |name,password|
-              unless (user = Ronin::Team::User.first(:name => name))
+            options[:passwords].each_key do |name|
+              unless Ronin::Team::User.count(:name => name) == 0
                 print_error "Unknown user #{name.dump}."
                 exit -1
               end
+            end
 
+            options[:passwords].each do |name,password|
               print_info "Setting password for user #{name.dump} ..."
 
+              user = Ronin::Team::User.first(:name => name)
               user.password = password
               user.save!
             end
