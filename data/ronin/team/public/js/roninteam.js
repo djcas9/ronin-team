@@ -187,7 +187,7 @@ function prettyDate(datetime) {
 	return Date.now();
 };
 
-var RoninTeamServer = new Faye.Client('http://'+roninteam_server+'/share', { timeout: 120 });
+var RoninTeamServer = new Faye.Client('http://' + roninteam_server + '/share', { timeout: 120 });
 
 Logger = {
   incoming: function(message, callback) {
@@ -206,17 +206,23 @@ var chatsub = RoninTeamServer.subscribe('/chat', RoninTeam.ChatRoom.messageHandl
 
 var users = RoninTeamServer.subscribe('/users', function(users) {
 	//var users = localStorage(users);
-  var TitleData = 'IP Address: '+users.addr+''
-  var UserData = '<img src="../images/user.png" width="16px" height="16px" alt="User"> '+ users.user
+  var title = 'IP Address: ' + users.addr;
+
   if ($('ul.user-list li.'+users.user).length == 0) {
+    var classes = [users.user];
+
     if (roninteam_user == users.user) {
+      classes.push('me');
 			RoninTeamServer.publish('/sysmsg', {message: users.user + ' joined the chat.'});
-			$('ul.user-list').append('<li class="me '+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
-			// $('ul.chat').append('<li>'+users.user+' entered the chat.</li>');
-    } else {
-			$('ul.user-list').append('<li class="'+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
-    };
-  };
+    }
+
+    var span_node = $('<span />').attr({
+      'class': 'tooltip',
+      'title': title
+    }).text(users.user).prepend('<img src="/images/user.png" width="16px" height="16px" alt="User">');
+    
+    $('<li />').attr('class',classes.join(' ')).append(span_node).appendTo('ul.user-list');
+  }
 });
 
 var sysmsg = RoninTeamServer.subscribe('/sysmsg', function(system) {
@@ -228,15 +234,15 @@ var announce = RoninTeamServer.subscribe('/announce', function(announce) {
 });
 
 var privmsg = RoninTeamServer.subscribe('/chat/'+roninteam_user, function(privmsg) {
-  $('ul.chat').append('<li><pre>'+privmsg.message+'</pre></li>');
+  $('<pre />').text(privmsg.message).wrap('<li />').appendTo('ul.chat');
 });
 
 var commandsub = RoninTeamServer.subscribe('/ls', function(comm) {
-  $('ul.chat').append('<li><pre>'+comm.data+'</pre></li>');
+  $('<pre />').text(comm.message).wrap('<li />').appendTo('ul.chat');
 });
 
-
 if (roninteam_user.length != 0) { RoninTeamServer.publish('/announce', {}) };
+
 if (localStorage.getItem('chat')) {
 	$('ul.chat').html(localStorage.getItem('chat'));
 };
