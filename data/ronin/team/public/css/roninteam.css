@@ -125,11 +125,13 @@ div.chat-holder ul.chat li{
 	background-color: #fff;
 }
 
-div.chat-holder ul.chat li.break{
+div.chat-holder ul.chat li.break,
+div.chat-holder ul.chat li.break:hover{
 	background: url(../images/break.png) repeat-x 0 center;
 	border-bottom-style: none;
 	border-top-style: none;
 }
+div.chat-holder ul.chat li.blank:hover,
 div.chat-holder ul.chat li.blank{
 	background: #fff;
 	border-bottom-style: none;
@@ -138,10 +140,6 @@ div.chat-holder ul.chat li.blank{
 	height: 10px;
 	margin: 0;
 	padding: 0;
-}
-div.chat-holder ul.chat li.blank:hover,
-div.chat-holder ul.chat li.break:hover{
-	background: none;
 }
 
 div.chat-holder ul.chat li a{
