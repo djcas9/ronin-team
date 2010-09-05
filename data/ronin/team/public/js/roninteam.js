@@ -9,7 +9,6 @@ var RoninTeam = {
 
 	helpers: function(){
 		$('ul.chat').scrollTo('100%', 1);
-		$('ul.chat li').css('opacity', 0.4);
 	},
 
   currentTime: function() {   return new Date().getTime(); },
@@ -187,7 +186,7 @@ function prettyDate(datetime) {
 	return Date.now();
 };
 
-var RoninTeamServer = new Faye.Client('http://' + roninteam_server + '/share', { timeout: 120 });
+var RoninTeamServer = new Faye.Client('http://'+roninteam_server+'/share', { timeout: 120 });
 
 Logger = {
   incoming: function(message, callback) {
@@ -206,23 +205,17 @@ var chatsub = RoninTeamServer.subscribe('/chat', RoninTeam.ChatRoom.messageHandl
 
 var users = RoninTeamServer.subscribe('/users', function(users) {
 	//var users = localStorage(users);
-  var title = 'IP Address: ' + users.addr;
-
+  var TitleData = 'IP Address: '+users.addr+''
+  var UserData = '<img src="../images/user.png" width="16px" height="16px" alt="User"> '+ users.user
   if ($('ul.user-list li.'+users.user).length == 0) {
-    var classes = [users.user];
-
     if (roninteam_user == users.user) {
-      classes.push('me');
 			RoninTeamServer.publish('/sysmsg', {message: users.user + ' joined the chat.'});
-    }
-
-    var span_node = $('<span />').attr({
-      'class': 'tooltip',
-      'title': title
-    }).text(users.user).prepend('<img src="/images/user.png" width="16px" height="16px" alt="User">');
-    
-    $('<li />').attr('class',classes.join(' ')).append(span_node).appendTo('ul.user-list');
-  }
+			$('ul.user-list').append('<li class="me '+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
+			// $('ul.chat').append('<li>'+users.user+' entered the chat.</li>');
+    } else {
+			$('ul.user-list').append('<li class="'+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
+    };
+  };
 });
 
 var sysmsg = RoninTeamServer.subscribe('/sysmsg', function(system) {
@@ -234,15 +227,18 @@ var announce = RoninTeamServer.subscribe('/announce', function(announce) {
 });
 
 var privmsg = RoninTeamServer.subscribe('/chat/'+roninteam_user, function(privmsg) {
-  $('<pre />').text(privmsg.message).wrap('<li />').appendTo('ul.chat');
+  $('ul.chat').append('<li><pre>'+privmsg.message+'</pre></li>');
 });
 
 var commandsub = RoninTeamServer.subscribe('/ls', function(comm) {
-  $('<pre />').text(comm.message).wrap('<li />').appendTo('ul.chat');
+  $('ul.chat').append('<li><pre>'+comm.data+'</pre></li>');
 });
 
-if (roninteam_user.length != 0) { RoninTeamServer.publish('/announce', {}) };
 
+if (roninteam_user.length != 0) { RoninTeamServer.publish('/announce', {}) };
 if (localStorage.getItem('chat')) {
 	$('ul.chat').html(localStorage.getItem('chat'));
+	$('ul.chat li.break, ul.chat li.blank').remove();
+	$('ul.chat li').css('opacity', 0.6);
+	$('ul.chat').append('<li class="blank"></li><li class="break"></li><li class="blank"></li>');
 };
