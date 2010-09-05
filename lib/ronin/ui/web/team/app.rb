@@ -96,11 +96,10 @@ module Ronin
           get '/sessions/destroy' do
             authorize!
 
-            faye.publish('/announce', {})
-
             print_info "User #{user.name.dump} logging out ..."
             @@users.delete(user.name)
 
+            faye.publish('/announce', {})
             redirect '/logout'
           end
           
