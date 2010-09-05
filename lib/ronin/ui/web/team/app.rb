@@ -96,6 +96,7 @@ module Ronin
           
           get '/logout' do
             session = {}
+            env['faye.client'].publish('/announce', {})
           end
 
           get '/chat' do

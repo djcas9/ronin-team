@@ -8,7 +8,8 @@ var RoninTeam = {
 	},
 
 	helpers: function(){
-		//...
+		$('ul.chat').scrollTo('100%', 1);
+		$('ul.chat li').css('opacity', 1);
 	},
 
   currentTime: function() {   return new Date().getTime(); },
@@ -28,8 +29,8 @@ var RoninTeam = {
 
     addMessage: function(mesgNode) {
       $('ul.chat').append(mesgNode);
-      $('ul.chat').scrollTo('100%', 1);
 
+			$('ul.chat').scrollTo('100%', 1);
       mesgNode.animate({opacity: 1}, 500);
       return mesgNode;
     },
@@ -76,6 +77,7 @@ var RoninTeam = {
 
     messageHandler: function(chat) {
       RoninTeam.ChatRoom.addUserMessage(chat);
+			localStorage.setItem('chat', $('ul.chat').html());
       return true;
     },
 
@@ -204,7 +206,6 @@ var users = RoninTeamServer.subscribe('/users', function(users) {
   var TitleData = 'IP Address: '+users.addr+''
   var UserData = '<img src="../images/user.png" width="16px" height="16px" alt="User"> '+ users.user
   if ($('ul.user-list li.'+users.user).length == 0) {
-		
     if (roninteam_user == users.user) {
 			RoninTeamServer.publish('/sysmsg', {message: users.user + ' joined the chat.'});
 			$('ul.user-list').append('<li class="me '+users.user+'"><span title="'+TitleData+'" class="tooltip">'+UserData+'</span></li>');
@@ -233,3 +234,6 @@ var commandsub = RoninTeamServer.subscribe('/ls', function(comm) {
 
 
 if (roninteam_user.length != 0) { RoninTeamServer.publish('/announce', {}) };
+if (localStorage.getItem('chat')) {
+	$('ul.chat').html(localStorage.getItem('chat'));
+};
