@@ -34,11 +34,11 @@ end
 
 Warden::Strategies.add(:password) do
   def valid?
-    params['user_name'] || params['password']
+    params['name'] || params['password']
   end
 
   def authenticate!
-    user = Ronin::Team::User.first(:user_name => params['user_name'])
+    user = Ronin::Team::User.first(:name => params['name'])
 
     if (user && user.encrypted_password == params['password'])
       success!(user)

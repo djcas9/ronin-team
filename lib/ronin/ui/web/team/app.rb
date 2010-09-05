@@ -82,22 +82,26 @@ module Ronin
           end
 
           get '/login' do
-            erb :login
+            erb :login, :layout => false
           end
 
           post '/login' do
             authenticate
 
-            user_name = params[:user_name]
+            user_name = params[:name]
 
             print_info "User #{user_name.dump} logged in."
 
-            session[:username] = user_name
+            session[:username] = current_user.name
             session[:uuid] = UUIDTools::UUID.random_create.to_s
             session[:ipaddr] = env['REMOTE_ADDR']
             session[:agent] = env['HTTP_USER_AGENT']
             session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
             @@users << user_name
+          end
+          
+          get '/logout' do
+            session = {}
           end
 
           get '/chat' do

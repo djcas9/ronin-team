@@ -30,7 +30,7 @@ module Ronin
         up do
           create_table(:ronin_team_users) do
             column :id, Serial
-            column :user_name, String, :not_null => true
+            column :name, String, :not_null => true
             column :encrypted_password, BCryptHash, :not_null => true
           end
         end

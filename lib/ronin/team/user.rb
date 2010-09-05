@@ -33,7 +33,7 @@ module Ronin
       property :id, Serial
 
       # The user name
-      property :user_name, String, :required => true
+      property :name, String, :required => true
 
       # The encrypted password of the user
       property :encrypted_password, BCryptHash, :required => true
