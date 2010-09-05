@@ -115,9 +115,57 @@ module Ronin
             erb :console
           end
 
+          get '/campaigns' do
+            json Campaign.all
+          end
+
+          get '/campaigns/:id' do
+            json Campaign.get(params[:id])
+          end
+
+          get '/campaigns/:id/addresses' do
+            json Address.all(:campaign => params[:id])
+          end
+
+          get '/campaigns/:id/mac_addresses' do
+            json MACAddress.all(:campaign => params[:id])
+          end
+
+          get '/campaigns/:id/ip_addresses' do
+            json IPAddress.all(:campaign => params[:id])
+          end
+
+          get '/campaigns/:id/host_names' do
+            json HostName.all(:campaign => params[:id])
+          end
+
+          get '/campaign/:id/urls' do
+            json URL.all('host_name.campaign' => params[:id])
+          end
+
+          get '/addresses/:id' do
+            json Address.get(:id)
+          end
+
+          get '/mac_addresses/:id' do
+            json IPAddress.get(:id)
+          end
+
+          get '/ip_addresses/:id' do
+            json IPAddress.get(:id)
+          end
+
+          get '/host_names/:id' do
+            json IPAddress.get(:id)
+          end
+
+          get '/urls/:id' do
+            json URL.get(:id)
+          end
+
           get %r{/docs/([A-Za-z0-9:]+)(/(class|instance)_method/(.+))?} do
             @class_name = params[:captures][0]
-            @url_path = @class_name.split('::').join('/')
+            @url_path = @class_name.gsub(/::/,'/')
 
             if params[:captures][1]
               scope = params[:captures][2]
