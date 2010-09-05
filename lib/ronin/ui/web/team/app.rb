@@ -22,6 +22,7 @@
 require 'ronin/ui/web/team/warden'
 require 'ronin/ui/web/team/helpers'
 require 'ronin/ui/output/helpers'
+require 'ronin/support/inflector'
 require 'ronin/database/migrations/team'
 require 'ronin/database'
 require 'ronin/version'
@@ -122,7 +123,7 @@ module Ronin
               @url_fragment = "##{method}-#{scope}_method"
             end
 
-            file_name = File.join('lib',@class_name.to_const_path) + '.rb'
+            file_name = File.join('lib',Support::Inflector.underscore(@class_name) + '.rb')
 
             name, gem = Installation.gems.find do |name,gem|
               gem.files.include?(file_name)
