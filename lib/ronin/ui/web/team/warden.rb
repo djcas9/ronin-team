@@ -40,7 +40,7 @@ Warden::Strategies.add(:password) do
   def authenticate!
 
     user = Ronin::Team::User.authenticate(
-      :user_name => params['user_name'],
+      :name => params['name'],
       :password => params['password']
     )
 
