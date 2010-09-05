@@ -3,13 +3,17 @@ source 'https://rubygems.org'
 DATA_MAPPER = 'http://github.com/datamapper'
 RONIN = 'http://github.com/ronin-ruby'
 
+gem 'bcrypt-ruby',	'~> 2.1.0'
+
 # DataMapper dependencies
 gem 'dm-core',		'~> 1.0.0', :git => "#{DATA_MAPPER}/dm-core.git"
+gem 'dm-types',		'~> 1.0.0', :git => "#{DATA_MAPPER}/dm-types.git"
 gem 'dm-migrations',	'~> 1.0.0', :git => 'http://github.com/postmodern/dm-migrations.git', :branch => 'runner'
 
 gem 'faye',		'~> 0.5.0'
+gem 'uuidtools', 	'~> 2.1.1'
 gem 'sinatra',		'~> 1.0'
-gem 'uuid', '~> 2.3.1'
+gem 'sinatra_warden',	'~> 0.3.0'
 gem 'ronin-support',	'~> 0.1.0', :git => "#{RONIN}/ronin-support.git"
 gem 'ronin',		'~> 0.4.0', :git => "#{RONIN}/ronin.git"
 

@@ -19,14 +19,16 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/ui/web/team/warden'
 require 'ronin/ui/web/team/helpers'
 require 'ronin/ui/output/helpers'
 require 'ronin/database'
 require 'ronin/version'
 
 require 'sinatra'
+require 'sinatra_warden'
 require 'faye'
-require 'uuid'
+require 'uuidtools'
 require 'set'
 
 module Ronin
@@ -39,6 +41,18 @@ module Ronin
           set :root, File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','..','data','ronin','team'))
 
           enable :sessions
+
+          use Warden::Manager do |manager|
+            manager.default_strategies :password
+            manager.failure_app = App
+          end
+
+          register Sinatra::Warden
+
+          set :auth_success_path, '/chat'
+          set :auth_failure_path, '/login'
+          set :auth_use_erb, true
+
           use Faye::RackAdapter, :mount => '/share', :timeout => 20
 
           helpers Team::Helpers
@@ -47,20 +61,12 @@ module Ronin
           configure do
             @@users = Set[]
             
-            trap('SIGINT') do
-              env['faye.client'].publish('/sysmsg', {:msg => "Server Restarting... Please Wait."})
-            end
-
             Database.setup
           end
 
           before  do
             if !(seen_intro?)
               redirect '/intro' unless request.path == '/intro'
-            elsif no_session?
-              unless %w[/ /intro /login].include?(request.path)
-                redirect '/login'
-              end
             end
           end
 
@@ -70,45 +76,38 @@ module Ronin
 
           get '/intro' do
             session[:seen_intro] = true
+
             erb :intro, :layout => false
           end
 
           get '/login' do
-            erb :setup
+            erb :login
           end
 
           post '/login' do
-            if no_session?
-              username = params[:username]
+            authenticate
 
-              if username.empty?
-                redirect '/login'
-              end
+            user_name = params[:user_name]
 
-              if @@users.include?(username)
-                print_info "User #{username.dump} is already logged in."
+            print_info "User #{user_name.dump} logged in."
 
-                redirect '/login'
-              end
-
-              print_info "User #{username.dump} logged in."
-
-              session[:username] = username
-              session[:uuid] = UUID.new.generate
-              session[:ipaddr] = env['REMOTE_ADDR']
-              session[:agent] = env['HTTP_USER_AGENT']
-              session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
-              @@users << username
-            end
-
-            redirect '/chat'
+            session[:username] = user_name
+            session[:uuid] = UUIDTools::UUID.random_create.to_s
+            session[:ipaddr] = env['REMOTE_ADDR']
+            session[:agent] = env['HTTP_USER_AGENT']
+            session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
+            @@users << user_name
           end
 
           get '/chat' do
+            authorize!
+
             erb :chat
           end
 
           get '/console' do
+            authorize!
+
             erb :console
           end
 
@@ -138,6 +137,8 @@ module Ronin
 
 
           get '/ls' do
+            authorize!
+
             env['faye.client'].publish('/sysmsg', {:message => `nmap 127.0.0.1` }) if has_session?
             ""
           end
