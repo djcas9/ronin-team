@@ -125,39 +125,63 @@ module Ronin
           end
 
           get '/campaigns/:id/addresses' do
-            json Address.all(:campaign => params[:id])
+            json Address.all('campaign.id' => params[:id])
           end
 
           get '/campaigns/:id/mac_addresses' do
-            json MACAddress.all(:campaign => params[:id])
+            json MACAddress.all('campaign.id' => params[:id])
           end
 
           get '/campaigns/:id/ip_addresses' do
-            json IPAddress.all(:campaign => params[:id])
+            json IPAddress.all('campaign.id' => params[:id])
           end
 
           get '/campaigns/:id/host_names' do
-            json HostName.all(:campaign => params[:id])
+            json HostName.all('campaign.id' => params[:id])
           end
 
           get '/campaign/:id/urls' do
-            json URL.all('host_name.campaign' => params[:id])
+            json URL.all('host_name.campaign.id' => params[:id])
           end
 
-          get '/addresses/:id' do
-            json Address.get(:id)
+          get '/campaign/:id/emails' do
+            json EmailAddress.all('host_name.campaign.id' => params[:id])
           end
 
-          get '/mac_addresses/:id' do
-            json IPAddress.get(:id)
+          get '/addresses/:address' do
+            json Address.first(:address => params[:address])
           end
 
-          get '/ip_addresses/:id' do
-            json IPAddress.get(:id)
+          get '/mac_addresses/:mac' do
+            json MACAddress.first(:address => params[:address])
           end
 
-          get '/host_names/:id' do
-            json IPAddress.get(:id)
+          get '/mac_addresses/:mac/ip_addresses' do
+            json IPAddress.all('mac_addresses.address' => params[:mac])
+          end
+
+          get '/ip_addresses/:ip' do
+            json IPAddress.first(:address => params[:ip])
+          end
+
+          get '/ip_addresses/:ip/open_ports' do
+            json OpenPort.all('ip_address.address' => params[:ip])
+          end
+
+          get '/ip_addresses/:ip/os_guesses' do
+            json OSGuess.all('ip_address.address' => params[:ip])
+          end
+
+          get '/host_names/:name' do
+            json HostName.first(:address => params[:name])
+          end
+
+          get '/host_names/:name/ip_addresses' do
+            json IPAddress.all('host_names.address' => params[:name])
+          end
+
+          get '/host_names/:name/urls' do
+            json URL.all('host_name.address' => params[:name])
           end
 
           get '/urls/:id' do
