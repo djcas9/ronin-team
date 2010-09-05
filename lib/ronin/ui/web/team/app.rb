@@ -82,10 +82,6 @@ module Ronin
             erb :intro, :layout => false
           end
 
-          get '/login' do
-            erb :login, :layout => false
-          end
-
           get '/sessions/new' do
             authorize!
 
