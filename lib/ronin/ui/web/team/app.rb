@@ -100,7 +100,7 @@ module Ronin
           get '/sessions/destroy' do
             authorize!
 
-            env['faye.client'].publish('/announce', {})
+            faye.publish('/announce', {})
 
             print_info "User #{user.name.dump} logging out ..."
             @@users.delete(user.name)
@@ -148,7 +148,7 @@ module Ronin
           get '/ls' do
             authorize!
 
-            env['faye.client'].publish('/sysmsg', {:message => `nmap 127.0.0.1` }) if has_session?
+            faye.publish('/sysmsg', {:message => `nmap 127.0.0.1` }) if has_session?
             ""
           end
 

@@ -64,6 +64,16 @@ module Ronin
               session[:flash] ||= {}
             end
           end
+
+          #
+          # The Faye client.
+          #
+          # @return [Faye::Client]
+          #   The Faye client.
+          #
+          def faye
+            env['faye.client']
+          end
         end
       end
     end
