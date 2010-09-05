@@ -87,7 +87,6 @@ module Ronin
 
           post '/login' do
             authenticate
-
             user_name = params[:name]
 
             print_info "User #{user_name.dump} logged in."
@@ -97,6 +96,7 @@ module Ronin
             session[:ipaddr] = env['REMOTE_ADDR']
             session[:agent] = env['HTTP_USER_AGENT']
             session[:lang] = env['HTTP_ACCEPT_LANGUAGE']
+
             @@users << user_name
           end
           
