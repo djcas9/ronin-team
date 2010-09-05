@@ -187,7 +187,7 @@ function prettyDate(datetime) {
 	return Date.now();
 };
 
-var RoninTeamServer = new Faye.Client('http://'+roninteam_server+'/share', { timeout: 120 });
+var RoninTeamServer = new Faye.Client('http://' + roninteam_server + '/share', { timeout: 120 });
 
 Logger = {
   incoming: function(message, callback) {
@@ -206,7 +206,7 @@ var chatsub = RoninTeamServer.subscribe('/chat', RoninTeam.ChatRoom.messageHandl
 
 var users = RoninTeamServer.subscribe('/users', function(users) {
 	//var users = localStorage(users);
-  var title = 'IP Address: '+users.addr+''
+  var title = 'IP Address: ' + users.addr;
 
   if ($('ul.user-list li.'+users.user).length == 0) {
     var classes = [users.user];
@@ -241,8 +241,8 @@ var commandsub = RoninTeamServer.subscribe('/ls', function(comm) {
   $('<pre />').text(comm.message).wrap('<li />').appendTo('ul.chat');
 });
 
-
 if (roninteam_user.length != 0) { RoninTeamServer.publish('/announce', {}) };
+
 if (localStorage.getItem('chat')) {
 	$('ul.chat').html(localStorage.getItem('chat'));
 };
