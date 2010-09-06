@@ -33,7 +33,7 @@ module Ronin
         #
         class Team < Command
           
-          desc 'Starts the Ronin Team web application'
+          desc 'Starts the Ronin Team web server'
           class_option :host, :type => :string, :aliases => '-I'
           class_option :port, :type => :numeric, :aliases => '-p'
 
