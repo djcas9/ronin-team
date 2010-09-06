@@ -38,9 +38,17 @@ module Ronin
           class_option :port, :type => :numeric, :aliases => '-p'
 
           class_option :users, :type => :boolean, :aliases => '-u'
-          class_option :add, :type => :hash, :aliases => '-a'
-          class_option :remove, :type => :string, :aliases =>' -r'
-          class_option :passwords, :type => :hash
+
+          class_option :add, :type => :hash,
+                             :aliases => '-a',
+                             :banner => 'USER:PASSWORD ...'
+
+          class_option :remove, :type => :string,
+                                :aliases =>' -r',
+                                :banner => 'USER'
+
+          class_option :passwords, :type => :hash,
+                                   :banner => 'USER:PASSWORD ...'
 
           def execute
             if options[:users]
