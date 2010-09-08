@@ -102,8 +102,7 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<bcrypt-ruby>, ["~> 2.1.0"])
-      s.add_runtime_dependency(%q<dm-migrations>, ["~> 1.0.1"])
-      s.add_runtime_dependency(%q<dm-serializer>, ["~> 1.0.1"])
+      s.add_runtime_dependency(%q<dm-serializer>, ["~> 1.0.2"])
       s.add_runtime_dependency(%q<dm-is-authenticatable>, ["~> 0.1.0"])
       s.add_runtime_dependency(%q<faye>, ["~> 0.5.0"])
       s.add_runtime_dependency(%q<uuidtools>, ["~> 2.1.1"])
@@ -117,8 +116,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.0.0.beta.20"])
     else
       s.add_dependency(%q<bcrypt-ruby>, ["~> 2.1.0"])
-      s.add_dependency(%q<dm-migrations>, ["~> 1.0.1"])
-      s.add_dependency(%q<dm-serializer>, ["~> 1.0.1"])
+      s.add_dependency(%q<dm-serializer>, ["~> 1.0.2"])
       s.add_dependency(%q<dm-is-authenticatable>, ["~> 0.1.0"])
       s.add_dependency(%q<faye>, ["~> 0.5.0"])
       s.add_dependency(%q<uuidtools>, ["~> 2.1.1"])
@@ -133,8 +131,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<bcrypt-ruby>, ["~> 2.1.0"])
-    s.add_dependency(%q<dm-migrations>, ["~> 1.0.1"])
-    s.add_dependency(%q<dm-serializer>, ["~> 1.0.1"])
+    s.add_dependency(%q<dm-serializer>, ["~> 1.0.2"])
     s.add_dependency(%q<dm-is-authenticatable>, ["~> 0.1.0"])
     s.add_dependency(%q<faye>, ["~> 0.5.0"])
     s.add_dependency(%q<uuidtools>, ["~> 2.1.1"])
