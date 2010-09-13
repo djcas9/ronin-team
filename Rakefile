@@ -19,7 +19,7 @@ Jeweler::Tasks.new do |gem|
   gem.license = 'GPL-2'
   gem.summary = %Q{Real-Time Security Research}
   gem.description = %Q{Ronin Team is a real-time web application, designed to help Security Researchers collaborate.}
-  gem.email = %w[dustin.webber@gmail.com postmodern.mod3@gmail.com]
+  gem.email = 'ronin-ruby@googlegroups.com'
   gem.homepage = 'http://github.com/mephux/ronin-team'
   gem.authors = ['Dustin Willis Webber', 'Postmodern']
   gem.has_rdoc = 'yard'
