@@ -1,0 +1,28 @@
+name: ronin-team
+summary: Real-Time Security Research
+description:
+  Ronin Team is a real-time web application, designed to help Security
+  Researchers collaborate.
+
+license: GPL-2
+authors:
+ - Dustin Willis Webber
+ - Postmodern
+email: ronin-ruby@googlegroups.com
+homepage: http://github.com/ronin-ruby/ronin
+has_yard: true
+
+dependencies:
+  bcrypt-ruby: ~> 2.1.0
+  dm-serializer: ~> 1.0.2
+  faye: ~> 0.5.0
+  uuidtools: ~> 2.1.1
+  sinatra: ~> 1.0.0
+  sinatra_warden: ~> 0.3.0
+  # Ronin dependencies:
+  # ronin-support: ~> 0.1.0
+  # ronin: ~> 1.0.0
+
+development_dependencies:
+  bundler: ~> 1.0.0
+  yard: ~> 0.6.1
