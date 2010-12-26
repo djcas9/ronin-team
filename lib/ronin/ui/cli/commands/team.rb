@@ -19,14 +19,14 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/ui/command_line/command'
+require 'ronin/ui/cli/command'
 require 'ronin/ui/web/team/app'
 require 'ronin/database'
 require 'ronin/team'
 
 module Ronin
   module UI
-    module CommandLine
+    module CLI
       module Commands
         #
         # The `ronin team` command.
